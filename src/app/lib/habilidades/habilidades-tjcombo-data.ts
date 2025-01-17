@@ -32,8 +32,6 @@ const habilidades = [
             'tipos': ['jogador_atual', 'condicao'],
 
             aplicar_efeito_condicao: function (jogador, jogadorEscolhido) {
-                alert(jogador.mao.consumiveis.length);
-
                 return jogador.mao.consumiveis.length >= this.jogador_atual_qtde_consumiveis_descartados;
             },
 
@@ -63,6 +61,10 @@ const habilidades = [
             'tipos': ['rodada_complementar', 'alterar_efeito_consumivel'],
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+                return jogadores;
+            },
+
+            aplicar_efeito_alterar_consumivel: function (jogador, jogadorEscolhido, jogadores) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao;
                 jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao;
                 jogador.ganhou_pontos_rodada_complementar = true;

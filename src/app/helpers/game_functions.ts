@@ -59,10 +59,20 @@ const game_functions = {
         return jogadorEfeito;
     },
 
-    'validarHabilidadeJogadorEscolhido': function (jogadorAtual: {}) {
+    'validarHabilidadeCondicao': function (jogadorAtual: {}) {
         let valido = true;
 
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('condicao')) {
+            valido = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_condicao(jogadorAtual, jogadorAtual.jogador_escolhido);
+        }
+
+        return valido;
+    },
+
+    'validarHabilidadeCondicaoEscolhido': function (jogadorAtual: {}) {
+        let valido = true;
+
+        if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('condicao_escolhido')) {
             valido = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_condicao(jogadorAtual, jogadorAtual.jogador_escolhido);
         }
 
@@ -87,7 +97,7 @@ const game_functions = {
 
     'usarConsumivelRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('alterar_efeito_consumivel')) {
-            jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+            jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_alterar_consumivel(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         } else {
             jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         }
@@ -118,12 +128,14 @@ const game_functions = {
     },
 
     'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
+        console.log(jogadorAtual);
+
         if (jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('final_rodada_complementar')) {
             jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito_final_rodada_complementar(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         }
 
         return jogadores;
-    }
+    },
 };
 
 export default game_functions;

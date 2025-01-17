@@ -7,7 +7,7 @@ const habilidades = [
             'jogador_atual_pontuacao': 7,
             'jogador_escolhido_pontuacao': 7,
             'efeito_condicao_pontuacao': 13,
-            'tipos': ['condicao', 'escolher_jogador', 'jogador_atual'],
+            'tipos': ['condicao_escolhido', 'escolher_jogador', 'jogador_atual'],
 
             aplicar_efeito_condicao: function (jogador, jogadorEscolhido) {
                 return jogadorEscolhido.pontuacao_atual >= this.efeito_condicao_pontuacao;

@@ -44,7 +44,7 @@ export default function Game() {
 
         jogadores.forEach((jogador) => {
             jogador = game_functions.comprarCartas(jogador, cartas, 1);
-            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 1);
+            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 2);
         });
         
         setCartas(cartas);
@@ -159,6 +159,14 @@ export default function Game() {
 
         let jogadoresArray = [...jogadores];
 
+        let validarCondicao = game_functions.validarHabilidadeCondicao(jogadorAtual);
+
+        if (!validarCondicao) {
+            alert('Habilidade Não Atendida!');
+
+            return;
+        }
+
         let validarHabilidadeEscolherJogador = game_functions.validarHabilidadeEscolherJogador(jogadorAtual);
 
         if (validarHabilidadeEscolherJogador) {
@@ -170,9 +178,9 @@ export default function Game() {
                 return;
             }
 
-            let validarHabilidadeJogadorEscolhido = game_functions.validarHabilidadeJogadorEscolhido(jogadorAtual);
+            let validarHabilidadeCondicaoEscolhido = game_functions.validarHabilidadeCondicaoEscolhido(jogadorAtual);
 
-            if (!validarHabilidadeJogadorEscolhido) {
+            if (!validarHabilidadeCondicaoEscolhido) {
                 alert('Jogador Inválido!');
 
                 return;
@@ -232,7 +240,9 @@ export default function Game() {
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+                if (jogador.consumivel_escolhido) {
+                    jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+                }
             });
 
             setJogadores(jogadoresArray);
@@ -250,7 +260,9 @@ export default function Game() {
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+                if (jogador.consumivel_escolhido) {
+                    jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+                }
             });
 
             setGame((prev) => ({...prev, 'rodada_principal': false, 'rodada_complementar': false, 'final_rodada': true}));
