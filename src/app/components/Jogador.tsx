@@ -37,17 +37,23 @@ export default function Jogador({ jogador, jogarCarta, jogarConsumivel, onEscolh
             <h1>{ jogador.nome }</h1>
             <p>Pontuação: { jogador.pontuacao_atual }</p>
 
-            <h5>Cartas</h5>
+            <div className="row">
+                <div className="col-sm-8">
+                    <h5>Cartas</h5>
 
-            { listarCartas() }
+                    { listarCartas() }
+                </div>
 
-            <h5>Consumíveis</h5>
+                <div className="col-sm-4">
+                    <h5>Consumíveis</h5>
 
-            { game.rodada_complementar && (
-                <button onClick={ pularRodadaComplementar }>Pular</button>
-            ) }
+                    { game.rodada_complementar && (
+                        <button onClick={ pularRodadaComplementar }>Pular</button>
+                    ) }
 
-            { listarConsumiveis() }
+                    { listarConsumiveis() }
+                </div>
+            </div>
 
             <h5>Descarte</h5>
         </>

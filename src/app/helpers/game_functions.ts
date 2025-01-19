@@ -89,7 +89,7 @@ const game_functions = {
         let habilidade = jogadorAtual.habilidade_escolhida;
 
         if (habilidade.efeitos.tipos.includes('final_rodada_principal')) {
-            habilidade.efeitos.aplicar_efeito_final_rodada_principal(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+            jogadores = habilidade.efeitos.aplicar_efeito_final_rodada_principal(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         }
 
         return jogadores;
@@ -127,11 +127,9 @@ const game_functions = {
         return valido;
     },
 
-    'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
-        console.log(jogadorAtual);
-
-        if (jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('final_rodada_complementar')) {
-            jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito_final_rodada_complementar(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+    'usarHabilidadeFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
+        if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('final_rodada_complementar')) {
+            jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_final_rodada_complementar(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         }
 
         return jogadores;

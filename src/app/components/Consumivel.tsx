@@ -1,7 +1,7 @@
 export default function Consumivel({ consumivel, jogador, jogavel, onEscolherConsumivelChange, jogarConsumivel, game }) {
     return (
         <div className="col">
-            <div className="card h-100 w-50">
+            <div className="card h-100 w-100">
                 <div className="card-body">
                     <p className="card-text" style={{ 'fontSize': '14px' }}>{ consumivel.descricao }</p>
                 </div>

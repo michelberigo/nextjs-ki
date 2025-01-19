@@ -2,6 +2,7 @@ const habilidades = [
     {
         'id': 7,
         'descricao': 'Escolha um jogador; Ao final da Rodada Principal, se ele ganhar 5 pontos ou mais: Remova todos os pontos dele',
+        'numero': 1,
 
         'efeitos': {
             'tipos': ['escolher_jogador', 'final_rodada_principal'],
@@ -25,6 +26,7 @@ const habilidades = [
     {
         'id': 8,
         'descricao': 'Descarte 2 Consumíveis; Ganhe 7 pontos',
+        'numero': 2,
 
         'efeitos': {
             'jogador_atual_pontuacao': 7,
@@ -55,6 +57,7 @@ const habilidades = [
     {
         'id': 9,
         'descricao': 'Durante a Rodada Complementar, se você jogar um Consumível, a ação dele será "Ganhe 4 pontos"',
+        'numero': 3,
 
         'efeitos': {
             'jogador_atual_pontuacao': 4,

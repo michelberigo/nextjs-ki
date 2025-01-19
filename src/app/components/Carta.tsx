@@ -1,7 +1,7 @@
 export default function Carta({ carta, jogador, jogavel, onEscolherCartaChange, onEscolherHabilidadeChange, jogarCarta, game }) {
     return (
         <div className="col">
-            <div className="card h-100 w-50">
+            <div className="card h-100 w-75">
                 <div className="card-header">
                     <div className="text-center">
                         <h5><b>{ carta.nome.toUpperCase() }</b></h5>
@@ -9,7 +9,7 @@ export default function Carta({ carta, jogador, jogavel, onEscolherCartaChange, 
                 </div>
                 
                 <div className="card-body">
-                    <img src="..." className="card-img-top" alt="..." />
+                    <img src={`/lutadores/${carta.slug}.jpg`} className="card-img-top" alt="..." />
 
                     { carta.habilidades.map((habilidade) => {
                         return (

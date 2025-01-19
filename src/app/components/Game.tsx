@@ -12,11 +12,7 @@ export default function Game() {
     const [consumiveis, setConsumiveis] = useState([]);
     const [jogadorTurnoAtual, setJogadorTurnoAtual] = useState(0);
 
-    const [game, setGame] = useState({
-        'rodada_principal': true,
-        'rodada_complementar': false,
-        'final_rodada': false
-    });
+    const [game, setGame] = useState({});
 
     useEffect(() => {
         iniciarGame();
@@ -24,18 +20,28 @@ export default function Game() {
 
     useEffect(() => {
         if (game.final_rodada) {
-            let finalJogo = false;
+            setTimeout(() => {
+                let finalJogo = [...jogadores].every((jogador) => jogador.mao.cartas.length == 0);
 
-            if (finalJogo) {
-                //validar vencedor
-            } else {
-                finalizarRodada();
-            }
+                if (finalJogo) {
+                    let jogadorVencedor = [...jogadores].reduce((maior, atual) => {
+                        return maior.pontuacao_atual > atual.pontuacao_atual ? maior : atual;
+                    });
+
+                    let confirmar = confirm(jogadorVencedor.nome + ' é o vencedor! Jogar outra partida?');
+
+                    if (confirmar) {
+                        iniciarGame();
+                    }
+                } else {
+                    finalizarRodada();
+                }
+            }, 0);
         }
     }, [game])
 
     const iniciarGame = () => {
-        let jogadores = buscarJogadores(3);
+        let jogadores = buscarJogadores(4);
         let cartas = cartasData;
         let consumiveis = consumiveisData;
 
@@ -44,12 +50,13 @@ export default function Game() {
 
         jogadores.forEach((jogador) => {
             jogador = game_functions.comprarCartas(jogador, cartas, 1);
-            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 2);
+            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 1);
         });
         
-        setCartas(cartas);
-        setConsumiveis(consumiveis);
+        //setCartas(cartas);
+        //setConsumiveis(consumiveis);
         setJogadores(jogadores);
+        setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': false, 'final_rodada': false}));
     }
 
     const buscarJogadores = (qtdeJogadores: number) => {
@@ -94,16 +101,28 @@ export default function Game() {
     const listarJogadores = () => {
         let listaJogadores = [...jogadores].map((jogador, index) => {
             return (
-                <div className="col" key={ index }>
-                    <p>Nome: { jogador.nome }</p>
-                    <p>Pontuação: { jogador.pontuacao_atual }</p>
-                    <p>Qtde. Cartas: { jogador.mao.cartas.length }</p>
-                    <p>Qtde. Consumíveis: { jogador.mao.consumiveis.length }</p>
+                <div key={ jogador.id } className="flex-fill border">
+                    <h5>{ jogador.nome }</h5>
+
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <div>Pontos: { jogador.pontuacao_atual }</div>
+                            <div>Qtde. Cartas: { jogador.mao.cartas.length }</div>
+                            <div>Qtde. Consumíveis: { jogador.mao.consumiveis.length }</div>
+                        </div>
+
+                        <div className="col-sm-6">
+                            <div>Qtde. Pontos Ganhos R.P.: { jogador.qtde_pontos_ganhos_rodada_principal }</div>
+                            <div>Qtde. Pontos Perdidos R.P.: { jogador.qtde_pontos_perdidos_rodada_principal }</div>
+                            <div>Qtde. Pontos Ganhos R.C.: { jogador.qtde_pontos_ganhos_rodada_complementar }</div>
+                            <div>Qtde. Pontos Perdidos R.C.: { jogador.qtde_pontos_perdidos_rodada_complementar }</div>
+                        </div>
+                    </div>
                 </div>
             );
         });
 
-        return listaJogadores;
+        return (<div className="d-flex text-center">{ listaJogadores }</div>);
     }
 
     const onEscolherCartaChange = (e) => {
@@ -189,6 +208,9 @@ export default function Game() {
 
         jogadoresArray = game_functions.usarHabilidadeRodadaPrincipal(jogadorAtual, jogadoresArray);
 
+        jogadorAtual.cartas_descartadas.push(jogadorAtual.carta_escolhida);
+        jogadorAtual.mao.cartas = jogadorAtual.mao.cartas.filter((carta) => carta.id != jogadorAtual.carta_escolhida.id);
+
         if (jogadorTurnoAtual + 1 < jogadores.length) {
             setJogadores(jogadoresArray);
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
@@ -235,14 +257,15 @@ export default function Game() {
 
         jogadoresArray = game_functions.usarConsumivelRodadaComplementar(jogadorAtual, jogadoresArray);
 
+        jogadorAtual.consumiveis_descartados.push(jogadorAtual.consumivel_escolhido);
+        jogadorAtual.mao.consumiveis = jogadorAtual.mao.consumiveis.filter((consumivel) => consumivel.id != jogadorAtual.consumivel_escolhido.id);
+
         if (jogadorTurnoAtual + 1 < jogadores.length) {
             setJogadores(jogadoresArray);
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                if (jogador.consumivel_escolhido) {
-                    jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
-                }
+                jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
             });
 
             setJogadores(jogadoresArray);
@@ -260,11 +283,10 @@ export default function Game() {
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                if (jogador.consumivel_escolhido) {
-                    jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
-                }
+                jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
             });
 
+            setJogadores(jogadoresArray);
             setGame((prev) => ({...prev, 'rodada_principal': false, 'rodada_complementar': false, 'final_rodada': true}));
         }
     }
@@ -273,14 +295,6 @@ export default function Game() {
         let jogadoresArray = [...jogadores];
 
         jogadoresArray.forEach((jogador, index) => {
-            jogador.cartas_descartadas.push(jogador.carta_escolhida);
-            jogador.mao.cartas = jogador.mao.cartas.filter((carta) => carta.id != jogador.carta_escolhida.id);
-
-            if (jogador.consumivel_escolhido) {
-                jogador.consumiveis_descartados.push(jogador.consumivel_escolhido);
-                jogador.mao.consumiveis = jogador.mao.consumiveis.filter((consumivel) => consumivel.id != jogador.consumivel_escolhido.id);
-            }
-
             jogador.carta_escolhida = '';
             jogador.consumivel_escolhido = '';
             jogador.habilidade_escolhida = '';
@@ -308,8 +322,6 @@ export default function Game() {
             <div className="row">
                 { listarJogadores() }
             </div>
-
-            <hr />
 
             { jogadores.length >0 &&
                 <Jogador jogador={ jogadores[jogadorTurnoAtual] } jogarCarta={ jogarCarta } jogarConsumivel={ jogarConsumivel }

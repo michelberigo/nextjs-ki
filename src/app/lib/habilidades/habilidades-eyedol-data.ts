@@ -2,6 +2,7 @@ const habilidades = [
     {
         'id': 1,
         'descricao': 'Escolha um jogador com 13 pontos ou mais; Você e ele devem ganhar ou perder pontos até ficar com 7 pontos',
+        'numero': 1,
 
         'efeitos': {
             'jogador_atual_pontuacao': 7,
@@ -42,6 +43,7 @@ const habilidades = [
     {
         'id': 2,
         'descricao': 'Todos os jogadores perdem 7 pontos. Ganhe 2 pontos',
+        'numero': 2,
 
         'efeitos': {
             'todos_jogadores_pontuacao': -7,
@@ -67,6 +69,7 @@ const habilidades = [
     {
         'id': 3,
         'descricao': 'Ganhe 10 pontos. Ao final da Rodada Principal, se outro jogador fez você perder algum ponto: Perca 6 pontos',
+        'numero': 3,
 
         'efeitos': {
             'jogador_atual_pontuacao': 10,

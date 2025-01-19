@@ -2,6 +2,7 @@ const habilidades = [
     {
         'id': 4,
         'descricao': 'Escolha um jogador; Ele perde 3 pontos. Ao final da Rodada Principal, se ele não ganhou pontos, ele perde mais 2 pontos',
+        'numero': 1,
 
         'efeitos': {
             'jogador_escolhido_pontuacao': -3,
@@ -31,6 +32,7 @@ const habilidades = [
     {
         'id': 5,
         'descricao': 'Ganhe 4 pontos. Ao final da Rodada Complementar, ganhe 2 pontos por cada cada Consumível usado nesta Rodada',
+        'numero': 2,
 
         'efeitos': {
             'jogador_atual_pontuacao': 4,
@@ -62,6 +64,7 @@ const habilidades = [
     {
         'id': 6,
         'descricao': 'Ganhe 3 pontos. Ao final da Rodada Principal, se você não possuir Consumível, ganhe 3 pontos',
+        'numero': 3,
 
         'efeitos': {
             'jogador_atual_pontuacao': 3,
