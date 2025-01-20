@@ -2,6 +2,7 @@ import habilidadesEyedol from './habilidades/habilidades-eyedol-data';
 import habilidadesRiptor from './habilidades/habilidades-riptor-data';
 import habilidadesTJCombo from './habilidades/habilidades-tjcombo-data';
 import habilidadesCinder from './habilidades/habilidades-cinder-data';
+import habilidadesFulgore from './habilidades/habilidades-fulgore-data';
 
 const cartas = [
     {
@@ -41,7 +42,7 @@ const cartas = [
         'habilidades': habilidadesFulgore
     },
 
-    {
+    /*{
         'id': 6,
         'nome': 'Glacius',
         'slug': 'glacius',
@@ -81,7 +82,7 @@ const cartas = [
         'nome': 'Thunder',
         'slug': 'thunder',
         'habilidades': habilidadesThunder
-    },
+    },*/
 ]
 
 export default cartas;
