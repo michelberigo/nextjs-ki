@@ -13,9 +13,14 @@ const habilidades = [
 
             aplicar_efeito_final_rodada_principal(jogador, jogadorEscolhido, jogadores) {
                 if (jogadorEscolhido.qtde_pontos_ganhos_rodada_principal >= 5) {
-                    jogadorEscolhido.pontuacao_atual += -jogadorEscolhido.pontuacao_atual;
-                    jogadorEscolhido.qtde_pontos_perdidos_rodada_principal += jogadorEscolhido.pontuacao_atual;
-                    jogadorEscolhido.perdeu_pontos_rodada_principal = true;
+                    let pontosPerdidos = jogadorEscolhido.pontuacao_atual;
+
+                    jogadorEscolhido.pontuacao_atual -= pontosPerdidos;
+                    jogadorEscolhido.qtde_pontos_perdidos_rodada_principal += pontosPerdidos;
+
+                    if (pontosPerdidos) {
+                        jogadorEscolhido.perdeu_pontos_rodada_principal = true;
+                    }
                 }
 
                 return jogadores;
@@ -29,7 +34,7 @@ const habilidades = [
         'numero': 2,
 
         'efeitos': {
-            'jogador_atual_pontuacao': 7,
+            'jogador_atual_pontuacao_ganhar': 7,
             'jogador_atual_qtde_consumiveis_descartados': 2,
             'tipos': ['jogador_atual', 'condicao'],
 
@@ -45,8 +50,8 @@ const habilidades = [
                     })
                 }
 
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao;
-                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao;
+                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_principal = true;
 
                 return jogadores;
@@ -60,7 +65,7 @@ const habilidades = [
         'numero': 3,
 
         'efeitos': {
-            'jogador_atual_pontuacao': 4,
+            'jogador_atual_pontuacao_ganhar': 4,
             'tipos': ['rodada_complementar', 'alterar_efeito_consumivel'],
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
@@ -68,8 +73,8 @@ const habilidades = [
             },
 
             aplicar_efeito_alterar_consumivel: function (jogador, jogadorEscolhido, jogadores) {
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao;
-                jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao;
+                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_complementar = true;
 
                 return jogadores;

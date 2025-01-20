@@ -219,6 +219,8 @@ export default function Game() {
         jogadorAtual.cartas_descartadas.push(jogadorAtual.carta_escolhida);
         jogadorAtual.mao.cartas = jogadorAtual.mao.cartas.filter((carta) => carta.id != jogadorAtual.carta_escolhida.id);
 
+        console.log(jogadoresArray);
+
         if (jogadorTurnoAtual + 1 < jogadores.length) {
             setJogadores(jogadoresArray);
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);

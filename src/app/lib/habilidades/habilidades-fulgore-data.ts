@@ -12,9 +12,14 @@ const habilidades = [
             },
 
             aplicar_efeito_final_rodada_complementar: function (jogador, jogadorEscolhido, jogadores) {
-                jogadorEscolhido.pontuacao_atual -= ((jogadorEscolhido.qtde_pontos_ganhos_rodada_principal + jogadorEscolhido.qtde_pontos_ganhos_rodada_complementar) * 2);
-                jogadorEscolhido.qtde_pontos_perdidos_rodada_complementar += ((jogadorEscolhido.qtde_pontos_ganhos_rodada_principal + jogadorEscolhido.qtde_pontos_ganhos_rodada_complementar) * 2);
-                jogadorEscolhido.perdeu_pontos_rodada_complementar = true;
+                let pontosPerdidos = Math.min(((jogadorEscolhido.qtde_pontos_ganhos_rodada_principal + jogadorEscolhido.qtde_pontos_ganhos_rodada_complementar) * 2), jogadorEscolhido.pontuacao_atual);
+
+                jogadorEscolhido.pontuacao_atual -= pontosPerdidos;
+                jogadorEscolhido.qtde_pontos_perdidos_rodada_complementar += pontosPerdidos;
+
+                if (pontosPerdidos) {
+                    jogadorEscolhido.perdeu_pontos_rodada_complementar = true;
+                }
 
                 return jogadores;
             },
@@ -50,12 +55,12 @@ const habilidades = [
 
         'efeitos': {
             'tipos': ['jogador_atual', 'final_rodada_complementar'],
-            'jogador_atual_pontuacao': 5,
-            'jogador_atual_pontuacao_final_rodada_complementar': -1,
+            'jogador_atual_pontuacao_ganhar': 5,
+            'jogador_atual_pontuacao_final_rodada_complementar': 1,
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao;
-                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao;
+                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_principal = true;
 
                 return jogadores;
@@ -64,9 +69,14 @@ const habilidades = [
             aplicar_efeito_final_rodada_complementar: function (jogador, jogadorEscolhido, jogadores) {
                 jogadores.forEach((jogadorArray) => {
                     if (jogadorArray.consumivel_escolhido) {
-                        jogador.pontuacao_atual += this.jogador_atual_pontuacao_final_rodada_complementar;
-                        jogador.qtde_pontos_perdidos_rodada_complementar += this.jogador_atual_pontuacao_final_rodada_complementar;
-                        jogador.perdeu_pontos_rodada_complementar = true;
+                        let pontosPerdidos = Math.min(this.jogador_atual_pontuacao_final_rodada_complementar, jogadorEscolhido.pontuacao_atual);
+
+                        jogadorEscolhido.pontuacao_atual -= pontosPerdidos;
+                        jogadorEscolhido.qtde_pontos_perdidos_rodada_complementar += pontosPerdidos;
+        
+                        if (pontosPerdidos) {
+                            jogadorEscolhido.perdeu_pontos_rodada_complementar = true;
+                        }
                     }
                 });
 
