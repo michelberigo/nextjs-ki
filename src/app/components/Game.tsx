@@ -101,7 +101,7 @@ export default function Game() {
     const listarJogadores = () => {
         let listaJogadores = [...jogadores].map((jogador, index) => {
             return (
-                <div key={ jogador.id } className="flex-fill border">
+                <div key={ jogador.id } className="flex-fill border w-100 px-2">
                     <h5>{ jogador.nome }</h5>
 
                     <div className="row">
@@ -117,6 +117,14 @@ export default function Game() {
                             <div>Qtde. Pontos Ganhos R.C.: { jogador.qtde_pontos_ganhos_rodada_complementar }</div>
                             <div>Qtde. Pontos Perdidos R.C.: { jogador.qtde_pontos_perdidos_rodada_complementar }</div>
                         </div>
+                    </div>
+
+                    <div className="row">
+                        { jogador.carta_escolhida && <>
+                            <div>Última Carta: { jogador.carta_escolhida.nome }</div>
+                            <div>Habilidade: { jogador.habilidade_escolhida.numero } - { jogador.habilidade_escolhida.descricao }</div>
+                            <div>Jogador Escolhido: { jogador.jogador_escolhido && jogador.jogador_escolhido.nome }</div>
+                        </> }
                     </div>
                 </div>
             );

@@ -35,7 +35,6 @@ export default function Jogador({ jogador, jogarCarta, jogarConsumivel, onEscolh
     return(
         <>
             <h1>{ jogador.nome }</h1>
-            <p>Pontuação: { jogador.pontuacao_atual }</p>
 
             <div className="row">
                 <div className="col-sm-8">

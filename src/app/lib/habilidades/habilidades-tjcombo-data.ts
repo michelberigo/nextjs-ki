@@ -12,7 +12,7 @@ const habilidades = [
             },
 
             aplicar_efeito_final_rodada_principal(jogador, jogadorEscolhido, jogadores) {
-                if (jogadorEscolhido.ganhou_pontos_rodada_principal >= 5) {
+                if (jogadorEscolhido.qtde_pontos_ganhos_rodada_principal >= 5) {
                     jogadorEscolhido.pontuacao_atual += -jogadorEscolhido.pontuacao_atual;
                     jogadorEscolhido.qtde_pontos_perdidos_rodada_principal += jogadorEscolhido.pontuacao_atual;
                     jogadorEscolhido.perdeu_pontos_rodada_principal = true;

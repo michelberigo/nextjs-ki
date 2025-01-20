@@ -52,6 +52,8 @@ const habilidades = [
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
                 jogadores.forEach((jogador) => {
+                    console.log(Math.min(this.todos_jogadores_pontuacao, jogador.pontuacao_atual));
+
                     jogador.pontuacao_atual += this.todos_jogadores_pontuacao;
                     jogador.qtde_pontos_perdidos_rodada_principal += this.todos_jogadores_pontuacao;
                     jogador.perdeu_pontos_rodada_principal = true;
