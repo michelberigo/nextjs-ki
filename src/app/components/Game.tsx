@@ -120,6 +120,18 @@ export default function Game() {
                     </div>
 
                     <div className="row">
+                        <div className="col-sm-6">
+                            <div>Ganhou Pontos R.P.: { jogador.ganhou_pontos_rodada_principal ? 'SIM': 'NÃO'}</div>
+                            <div>Ganhou Pontos R.C.: { jogador.ganhou_pontos_rodada_complementar ? 'SIM': 'NÃO'}</div>
+                        </div>
+
+                        <div className="col-sm-6">
+                            <div>Perdeu Pontos R.P.: { jogador.perdeu_pontos_rodada_principal ? 'SIM': 'NÃO'}</div>
+                            <div>Perdeu Pontos R.C.: { jogador.perdeu_pontos_rodada_complementar ? 'SIM': 'NÃO'}</div>
+                        </div>
+                    </div>
+
+                    <div className="row">
                         { jogador.carta_escolhida && <>
                             <div>Última Carta: { jogador.carta_escolhida.nome }</div>
                             <div>Habilidade: { jogador.habilidade_escolhida.numero } - { jogador.habilidade_escolhida.descricao }</div>
