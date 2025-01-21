@@ -41,7 +41,7 @@ export default function Game() {
     }, [game])
 
     const iniciarGame = () => {
-        let jogadores = buscarJogadores(4);
+        let jogadores = buscarJogadores(3);
         let cartas = cartasData;
         let consumiveis = consumiveisData;
 
@@ -49,7 +49,7 @@ export default function Game() {
         consumiveis = game_functions.embaralharConsumiveis(consumiveis);
 
         jogadores.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartas, 1);
+            jogador = game_functions.comprarCartas(jogador, cartas, 2);
             jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 1);
         });
         
@@ -78,10 +78,11 @@ export default function Game() {
                 'consumiveis_descartados': [],
                 'consumivel_escolhido': '',
 
-                'habilidade_escolhida': '',
                 'pontuacao_atual': 5,
+                'habilidade_escolhida': '',
                 'jogador_escolhido': '',
                 'jogador_consumivel_escolhido': '',
+                'habilidade_numero_escolhido': '',
 
                 'qtde_pontos_perdidos_rodada_principal': 0,
                 'qtde_pontos_ganhos_rodada_principal': 0,
@@ -92,6 +93,10 @@ export default function Game() {
                 'qtde_pontos_ganhos_rodada_complementar': 0,
                 'ganhou_pontos_rodada_complementar': false,
                 'perdeu_pontos_rodada_complementar': false,
+
+                'efeito_bloqueado': false,
+                'efeito_numeros_bloquear': [],
+                'pode_usar_consumivel': true
             });
         }
 
@@ -134,6 +139,7 @@ export default function Game() {
                     <div className="row">
                         { jogador.carta_escolhida && <>
                             <div>Última Carta: { jogador.carta_escolhida.nome }</div>
+                            { jogador.efeito_bloqueado && <div className="text-danger">Efeito Bloqueado</div> }
                             <div>Habilidade: { jogador.habilidade_escolhida.numero } - { jogador.habilidade_escolhida.descricao }</div>
                             <div>Jogador Escolhido: { jogador.jogador_escolhido && jogador.jogador_escolhido.nome }</div>
                         </> }
@@ -143,32 +149,6 @@ export default function Game() {
         });
 
         return (<div className="d-flex text-center">{ listaJogadores }</div>);
-    }
-
-    const onEscolherCartaChange = (e) => {
-        /*let jogadorId = e.target.dataset.jogadorId;
-        let cartaId = e.target.value;
-        let jogador = [...jogadores].find(jogador => jogador.id == jogadorId);
-        let jogadorIndex = [...jogadores].findIndex((jogador) => jogador.id == jogadorId);
-
-        let carta = [...jogador.mao.cartas].find((carta) => carta.id == cartaId);
-
-        jogadores[jogadorIndex].carta_escolhida = carta;
-
-        setJogadores(jogadores);*/
-    }
-
-    const onEscolherConsumivelChange = (e) => {
-        /*let jogadorId = e.target.dataset.jogadorId;
-        let consumivelId = e.target.value;
-        let jogador = [...jogadores].find(jogador => jogador.id == jogadorId);
-        let jogadorIndex = [...jogadores].findIndex((jogador) => jogador.id == jogadorId);
-
-        let consumivel = [...jogador.mao.consumiveis].find((consumivel) => consumivel.id == consumivelId);
-
-        jogadores[jogadorIndex].consumivel_escolhido = consumivel;
-
-        setJogadores(jogadores);*/
     }
 
     const onEscolherHabilidadeChange = (e) => {
@@ -206,27 +186,54 @@ export default function Game() {
             return;
         }
 
-        let validarHabilidadeEscolherJogador = game_functions.validarHabilidadeEscolherJogador(jogadorAtual);
-
-        if (validarHabilidadeEscolherJogador) {
-            jogadorAtual.jogador_escolhido = game_functions.escolherJogador(jogadorAtual, jogadoresArray);
-
-            if (!jogadorAtual.jogador_escolhido || !jogadoresArray.find(jogador => jogador.id == jogadorAtual.jogador_escolhido.id)) {
-                alert('Jogador Escolhido Incorretamente!');
+        if (game_functions.validarUsarHabilidade(jogadorAtual)) {
+            if (!game_functions.valudarUsarHabilidadeNumero(jogadorAtual)) {
+                alert('Efeito Bloqueado!');
 
                 return;
             }
 
-            let validarHabilidadeCondicaoEscolhido = game_functions.validarHabilidadeCondicaoEscolhido(jogadorAtual);
+            let validarHabilidadeEscolherJogador = game_functions.validarHabilidadeEscolherJogador(jogadorAtual);
+            let jogadorEscolhido = '';
+            let habilidadeNumeroEscolhido = '';
 
-            if (!validarHabilidadeCondicaoEscolhido) {
-                alert('Jogador Inválido!');
+            if (validarHabilidadeEscolherJogador) {
+                jogadorEscolhido = game_functions.escolherJogador(jogadorAtual, jogadoresArray);
 
-                return;
+                if (!jogadorEscolhido || !jogadoresArray.find(jogador => jogador.id == jogadorEscolhido.id)) {
+                    alert('Jogador Escolhido Incorretamente!');
+
+                    return;
+                }
+
+                let validarHabilidadeCondicaoEscolhido = game_functions.validarHabilidadeCondicaoEscolhido(jogadorAtual);
+
+                if (!validarHabilidadeCondicaoEscolhido) {
+                    alert('Jogador Inválido!');
+
+                    return;
+                }
             }
+
+            let validarHabilidadeEscolherNumero = game_functions.validarHabilidadeEscolherNumero(jogadorAtual);
+
+            if (validarHabilidadeEscolherNumero) {
+                habilidadeNumeroEscolhido = game_functions.escolherNumeroHabilidade(jogadorAtual, jogadoresArray);
+
+                if (!habilidadeNumeroEscolhido || !['1', '2', '3'].includes(habilidadeNumeroEscolhido)) {
+                    alert('Número de Efeito Incorreto!');
+
+                    return;
+                }
+            }
+
+            jogadorAtual.jogador_escolhido = jogadorEscolhido;
+            jogadorAtual.habilidade_numero_escolhido = habilidadeNumeroEscolhido;
+
+            jogadoresArray = game_functions.usarHabilidadeRodadaPrincipal(jogadorAtual, jogadoresArray);
+        } else {
+            alert('Efeito Bloqueado!');
         }
-
-        jogadoresArray = game_functions.usarHabilidadeRodadaPrincipal(jogadorAtual, jogadoresArray);
 
         jogadorAtual.cartas_descartadas.push(jogadorAtual.carta_escolhida);
         jogadorAtual.mao.cartas = jogadorAtual.mao.cartas.filter((carta) => carta.id != jogadorAtual.carta_escolhida.id);
@@ -238,7 +245,9 @@ export default function Game() {
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarHabilidadeFinalRodadaPrincipal(jogador, jogadoresArray);
+                if (!jogador.efeito_bloqueado) {
+                    jogadoresArray = game_functions.usarHabilidadeFinalRodadaPrincipal(jogador, jogadoresArray);
+                }
             });
 
             setJogadores(jogadoresArray);
@@ -249,6 +258,12 @@ export default function Game() {
 
     const jogarConsumivel = (e) => {
         const jogadorAtual = jogadores[jogadorTurnoAtual];
+
+        if (!jogadorAtual.pode_usar_consumivel) {
+            alert('Não Pode Usar Consumível');
+
+            return;
+        }
 
         let jogadoresArray = [...jogadores];
 
@@ -287,7 +302,9 @@ export default function Game() {
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
+                if (!jogador.efeito_bloqueado) {
+                    jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
+                }
             });
 
             setJogadores(jogadoresArray);
@@ -305,7 +322,9 @@ export default function Game() {
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
         } else {
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
+                if (!jogador.efeito_bloqueado) {
+                    jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
+                }
             });
 
             setJogadores(jogadoresArray);
@@ -332,11 +351,15 @@ export default function Game() {
             jogador.qtde_pontos_ganhos_rodada_complementar = 0;
             jogador.ganhou_pontos_rodada_complementar = false;
             jogador.perdeu_pontos_rodada_complementar = false;
+
+            jogador.efeito_bloqueado = false;
+            jogador.efeito_numeros_bloquear = [];
+            jogador.pode_usar_consumivel = true;
         });
 
         setJogadores(jogadoresArray);
         setJogadorTurnoAtual(0);
-        setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': true, 'final_rodada': false}));
+        setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': false, 'final_rodada': false}));
     }
 
     return (
@@ -347,7 +370,7 @@ export default function Game() {
 
             { jogadores.length >0 &&
                 <Jogador jogador={ jogadores[jogadorTurnoAtual] } jogarCarta={ jogarCarta } jogarConsumivel={ jogarConsumivel }
-                    onEscolherCartaChange={ onEscolherCartaChange } onEscolherHabilidadeChange={ onEscolherHabilidadeChange } onEscolherConsumivelChange={ onEscolherConsumivelChange }
+                    onEscolherHabilidadeChange={ onEscolherHabilidadeChange }
                     game={ game } pularRodadaComplementar={ pularRodadaComplementar }
                 />
             }

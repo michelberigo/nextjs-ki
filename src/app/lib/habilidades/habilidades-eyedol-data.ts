@@ -63,7 +63,7 @@ const habilidades = [
                 });
 
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
-                jogador.qtde_pontos_ganhos_rodada_principal +=  this.jogador_atual_pontuacao_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_principal = true;
 
                 return jogadores;
@@ -83,7 +83,7 @@ const habilidades = [
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
-                jogador.qtde_pontos_ganhos_rodada_principal +=  this.jogador_atual_pontuacao_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_principal = true;
 
                 return jogadores;

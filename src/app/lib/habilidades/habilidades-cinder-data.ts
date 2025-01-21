@@ -44,7 +44,7 @@ const habilidades = [
             aplicar_efeito_final_rodada_complementar: function (jogador, jogadorEscolhido, jogadores) {
                 if (Math.abs(jogador.qtde_pontos_perdidos_rodada_principal) + Math.abs(jogador.qtde_pontos_perdidos_rodada_complementar) == 0) {
                     jogador.pontuacao_atual += this.jogador_atual_pontuacao_final_rodada_complementar;
-                    jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao;
+                    jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao;
                     jogador.ganhou_pontos_rodada_complementar = true;
                 }
 

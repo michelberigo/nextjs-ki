@@ -1,4 +1,4 @@
-export default function Consumivel({ consumivel, jogador, jogavel, onEscolherConsumivelChange, jogarConsumivel, game }) {
+export default function Consumivel({ consumivel, jogador, jogavel, jogarConsumivel, game }) {
     return (
         <div className="col">
             <div className="card h-100 w-100">

@@ -51,12 +51,20 @@ const game_functions = {
         return jogador.habilidade_escolhida.efeitos.tipos.includes('escolher_jogador');
     },
 
+    'validarHabilidadeEscolherNumero': function (jogador: {}) {
+        return jogador.habilidade_escolhida.efeitos.tipos.includes('escolher_numero_habilidade');
+    },
+
     'escolherJogador': function (jogadorAtual: {}, jogadores: []) {
         let jogadorEfeitoId = prompt(jogadorAtual.nome + ', escolha o ID do jogador:');
 
         let jogadorEfeito = jogadores.find((jogador) => jogador.id == jogadorEfeitoId);
 
         return jogadorEfeito;
+    },
+
+    'escolherNumeroHabilidade': function (jogadorAtual: {}, jogadores: []) {
+        return prompt(jogadorAtual.nome + ', escolha o Número do Efeito:');
     },
 
     'validarHabilidadeCondicao': function (jogadorAtual: {}) {
@@ -133,6 +141,14 @@ const game_functions = {
         }
 
         return jogadores;
+    },
+
+    'validarUsarHabilidade': function (jogadorAtual) {
+        return !jogadorAtual.efeito_bloqueado;
+    },
+
+    'valudarUsarHabilidadeNumero': function (jogadorAtual) {
+        return !jogadorAtual.efeito_numeros_bloquear.includes(jogadorAtual.habilidade_escolhida.numero.toString());
     },
 };
 

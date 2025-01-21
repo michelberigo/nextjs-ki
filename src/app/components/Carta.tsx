@@ -1,4 +1,4 @@
-export default function Carta({ carta, jogador, jogavel, onEscolherCartaChange, onEscolherHabilidadeChange, jogarCarta, game }) {
+export default function Carta({ carta, jogador, jogavel, onEscolherHabilidadeChange, jogarCarta, game }) {
     return (
         <div className="col">
             <div className="card h-100 w-75">
