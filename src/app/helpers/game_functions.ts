@@ -143,6 +143,16 @@ const game_functions = {
         return jogadores;
     },
 
+    //
+    'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
+        if (jogadorAtual.consumivel_escolhido && jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('final_rodada_complementar')) {
+            jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+        }
+
+        return jogadores;
+    },
+    //
+
     'validarUsarHabilidade': function (jogadorAtual) {
         return !jogadorAtual.efeito_bloqueado;
     },

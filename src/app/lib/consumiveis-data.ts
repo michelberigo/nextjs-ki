@@ -4,13 +4,13 @@ const consumiveis = [
         'descricao': 'Ganhe 6 pontos se você não possuir pontos. Se você jogou Eyedol nesta Rodada: Todos os outros jogadores devem descartar um Consumível',
 
         'efeitos': {
-            'jogador_atual_pontuacao': 6,
+            'jogador_atual_pontuacao_ganhar': 6,
             'tipos': ['jogador_atual', 'jogador_atual_condicao'],
 
             aplicar_efeito: function (jogador, jogadorEfeito, jogadores) {
                 if (jogador.pontuacao_atual == 0) {
-                    jogador.pontuacao_atual += this.jogador_atual_pontuacao;
-                    jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao;
+                    jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
+                    jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_ganhar;
                     jogador.ganhou_pontos_rodada_complementar = true;
                 }
 
@@ -33,16 +33,27 @@ const consumiveis = [
 
     {
         'id': 2,
-        'descricao': 'Ganhe 1 ponto',
+        'descricao': 'Ganhe 1 ponto. Ao final da Rodada Complementar, ganhe 3 pontos se outro Consumível foi usado',
 
         'efeitos': {
-            'jogador_atual_pontuacao': 1,
-            'tipos': ['jogador_atual'],
+            'jogador_atual_pontuacao_ganhar': 1,
+            'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 3,
+            'tipos': ['jogador_atual', 'final_rodada_complementar'],
 
             aplicar_efeito: function (jogador, jogadorEfeito, jogadores) {
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao;
-                jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao;
+                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_complementar = true;
+
+                return jogadores;
+            },
+
+            aplicar_efeito_final_rodada_complementar: function (jogador, jogadorEfeito, jogadores) {
+                if (jogadores.some((jogadorArray) => jogadorArray.consumivel_escolhido)) {
+                    jogador.pontuacao_atual += this.jogador_atual_pontuacao_final_rodada_complementar_ganhar;
+                    jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_final_rodada_complementar_ganhar;
+                    jogador.ganhou_pontos_rodada_complementar = true;
+                }
 
                 return jogadores;
             },

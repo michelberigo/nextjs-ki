@@ -307,6 +307,10 @@ export default function Game() {
                 }
             });
 
+            jogadoresArray.forEach((jogador) => {
+                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+            });
+
             setJogadores(jogadoresArray);
             setGame((prev) => ({...prev, 'rodada_principal': false, 'rodada_complementar': false, 'final_rodada': true}));
         }
@@ -325,6 +329,10 @@ export default function Game() {
                 if (!jogador.efeito_bloqueado) {
                     jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
                 }
+            });
+
+            jogadoresArray.forEach((jogador) => {
+                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
             });
 
             setJogadores(jogadoresArray);
