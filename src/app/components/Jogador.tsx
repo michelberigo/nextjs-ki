@@ -19,7 +19,7 @@ export default function Jogador({ jogador, jogarCarta, jogarConsumivel, onEscolh
             </div>)
         });
 
-        return (<div className="row row-cols-1 row-cols-md-3">{ listaCartas }</div>);
+        return (<div className="row">{ listaCartas }</div>);
     }
     
     const listarConsumiveis = () => {

@@ -41,7 +41,7 @@ export default function Game() {
     }, [game])
 
     const iniciarGame = () => {
-        let jogadores = buscarJogadores(3);
+        let jogadores = buscarJogadores(2);
         let cartas = cartasData;
         let consumiveis = consumiveisData;
 
@@ -49,7 +49,7 @@ export default function Game() {
         consumiveis = game_functions.embaralharConsumiveis(consumiveis);
 
         jogadores.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartas, 2);
+            jogador = game_functions.comprarCartas(jogador, cartas, 5);
             jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 1);
         });
         

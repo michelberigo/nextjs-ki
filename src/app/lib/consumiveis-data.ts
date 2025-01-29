@@ -1,7 +1,8 @@
 const consumiveis = [
     {
         'id': 1,
-        'descricao': 'Ganhe 6 pontos se você não possuir pontos. Se você jogou Eyedol nesta Rodada: Todos os outros jogadores devem descartar um Consumível',
+        'descricao': 'Ganhe 6 pontos se você não possuir pontos',
+        'descricao_carta': 'Se você jogou Eyedol nesta Rodada: Todos os outros jogadores devem descartar um Consumível',
 
         'efeitos': {
             'jogador_atual_pontuacao_ganhar': 6,
@@ -31,14 +32,14 @@ const consumiveis = [
         }
     },
 
-    {
+    /*{
         'id': 2,
-        'descricao': 'Ganhe 1 ponto. Ao final da Rodada Complementar, ganhe 3 pontos se outro Consumível foi usado',
+        'descricao': 'Ganhe 1 ponto. Ao final da Rodada Complementar, ganhe 3 pontos se outro Consumível foi usado. Se você jogou Riptor nesta Rodada: Você pode descartar um Consumível para ganhar 2 pontos',
 
         'efeitos': {
             'jogador_atual_pontuacao_ganhar': 1,
             'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 3,
-            'tipos': ['jogador_atual', 'final_rodada_complementar'],
+            'tipos': ['jogador_atual', 'final_rodada_complementar', 'descartar_consumivel_pos_efeito'],
 
             aplicar_efeito: function (jogador, jogadorEfeito, jogadores) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
@@ -58,7 +59,7 @@ const consumiveis = [
                 return jogadores;
             },
         }
-    },
+    },*/
 ];
 
 export default consumiveis;

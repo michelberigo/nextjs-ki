@@ -5,13 +5,10 @@ import habilidadesCinder from './habilidades/habilidades-cinder-data';
 import habilidadesFulgore from './habilidades/habilidades-fulgore-data';
 import habilidadesGlacius from './habilidades/habilidades-glacius-data';
 import habilidadesJago from './habilidades/habilidades-jago-data';
-/*
-
 import habilidadesOrchid from './habilidades/habilidades-orchid-data';
 import habilidadesSabrewulf from './habilidades/habilidades-sabrewulf-data';
 import habilidadesSpinal from './habilidades/habilidades-spinal-data';
 import habilidadesThunder from './habilidades/habilidades-thunder-data';
-*/
 
 const cartas = [
     {
@@ -63,7 +60,7 @@ const cartas = [
         'habilidades': habilidadesJago
     },
 
-    /*{
+    {
         'id': 8,
         'nome': 'B. Orchid',
         'slug': 'Orchid',
@@ -89,7 +86,7 @@ const cartas = [
         'nome': 'Thunder',
         'slug': 'thunder',
         'habilidades': habilidadesThunder
-    },*/
+    },
 ]
 
 export default cartas;
