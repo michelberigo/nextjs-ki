@@ -1,35 +1,48 @@
 const habilidades = [
     {
         'id': 25,
-        'descricao': 'Ganhe 1 ponto',
+        'descricao': 'Ao final de toda Rodada Complementar, ganhe 2 pontos',
         'numero': 1,
 
         'efeitos': {
-            'tipos': ['jogador_atual'],
-            'jogador_atual_pontuacao_ganhar': 1,
+            'tipos': ['jogador_atual', 'final_toda_rodada_complementar'],
+            'jogador_atual_pontuacao_final_toda_rodada_complementar_ganhar': 2,
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
-                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
-                jogador.ganhou_pontos_rodada_principal = true;
-
                 return jogadores;
             },
+
+            aplicar_efeito_final_toda_rodada_complementar: function (jogador, jogadorEscolhido, jogadores) {
+                jogador.pontuacao_atual += this.jogador_atual_pontuacao_final_toda_rodada_complementar_ganhar;
+                jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_final_toda_rodada_complementar_ganhar;
+                jogador.ganhou_pontos_rodada_complementar = true;
+
+                return jogadores;
+            }
         }
     },
 
     {
         'id': 26,
-        'descricao': 'Ganhe 1 ponto',
+        'descricao': 'Escolha um jogador; Pegue 3 pontos dele (ou pegue todos os pontos se ele possuir menos de 3 pontos)',
         'numero': 2,
 
         'efeitos': {
-            'tipos': ['jogador_atual'],
-            'jogador_atual_pontuacao_ganhar': 1,
+            'tipos': ['escolher_jogador', 'jogador_atual'],
+            'jogador_escolhido_pontuacao_perder': 3,
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
-                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
+                let pontosPerdidosJogadorEscolhido = Math.min(this.jogador_escolhido_pontuacao_perder, jogadorEscolhido.pontuacao_atual);
+
+                jogadorEscolhido.pontuacao_atual -= pontosPerdidosJogadorEscolhido;
+                jogadorEscolhido.qtde_pontos_perdidos_rodada_principal += pontosPerdidosJogadorEscolhido;
+
+                if (pontosPerdidosJogadorEscolhido) {
+                    jogadorEscolhido.perdeu_pontos_rodada_principal = true;
+                }
+
+                jogador.pontuacao_atual += pontosPerdidosJogadorEscolhido;
+                jogador.qtde_pontos_ganhos_rodada_principal += pontosPerdidosJogadorEscolhido;
                 jogador.ganhou_pontos_rodada_principal = true;
 
                 return jogadores;
@@ -39,20 +52,28 @@ const habilidades = [
 
     {
         'id': 27,
-        'descricao': 'Ganhe 1 ponto',
+        'descricao': 'Ao final da Rodada Complementar, ganhe 4 pontos por cada Consumível usado nesta Rodada',
         'numero': 3,
 
         'efeitos': {
-            'tipos': ['jogador_atual'],
-            'jogador_atual_pontuacao_ganhar': 1,
+            'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 4,
+            'tipos': ['jogador_atual', 'final_rodada_complementar'],
 
             aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
-                jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
-                jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
-                jogador.ganhou_pontos_rodada_principal = true;
-
                 return jogadores;
             },
+
+            aplicar_efeito_final_rodada_complementar: function (jogador, jogadorEscolhido, jogadores) {
+                jogadores.forEach((jogadorArray) => {
+                    if (jogadorArray.consumivel_escolhido) {
+                        jogador.pontuacao_atual += this.jogador_atual_pontuacao_final_rodada_complementar_ganhar;
+                        jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_final_rodada_complementar_ganhar;
+                        jogador.ganhou_pontos_rodada_complementar = true;
+                    }
+                });
+
+                return jogadores;
+            }
         }
     }
 ];

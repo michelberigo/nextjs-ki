@@ -144,6 +144,14 @@ const game_functions = {
     },
 
     //
+    'usarHabilidadeFinalTodaRodadaComplementar': function (jogadorAtual: {}, jogadores: [], carta: {}) {
+        if (carta.habilidade_escolhida.efeitos.tipos.includes('final_toda_rodada_complementar')) {
+            jogadores = carta.habilidade_escolhida.efeitos.aplicar_efeito_final_toda_rodada_complementar(jogadorAtual, jogadorAtual.jogador_escolhido, jogadores);
+        }
+
+        return jogadores;
+    },
+    
     'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
         if (jogadorAtual.consumivel_escolhido && jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('final_rodada_complementar')) {
             jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);

@@ -49,7 +49,7 @@ export default function Game() {
         consumiveis = game_functions.embaralharConsumiveis(consumiveis);
 
         jogadores.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartas, 5);
+            jogador = game_functions.comprarCartas(jogador, cartas, 2);
             jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 1);
         });
         
@@ -71,6 +71,8 @@ export default function Game() {
                     'cartas': [],
                     'consumiveis': []
                 },
+
+                'cartas_jogadas': [],
 
                 'cartas_descartadas': [],
                 'carta_escolhida': '',
@@ -236,6 +238,7 @@ export default function Game() {
         }
 
         jogadorAtual.cartas_descartadas.push(jogadorAtual.carta_escolhida);
+        jogadorAtual.cartas_jogadas.push({'carta_escolhida': jogadorAtual.carta_escolhida, 'habilidade_escolhida': jogadorAtual.habilidade_escolhida});
         jogadorAtual.mao.cartas = jogadorAtual.mao.cartas.filter((carta) => carta.id != jogadorAtual.carta_escolhida.id);
 
         console.log(jogadoresArray);
@@ -308,6 +311,14 @@ export default function Game() {
             });
 
             jogadoresArray.forEach((jogador) => {
+                jogador.cartas_jogadas.forEach((cartaJogada) => {
+                    if (cartaJogada.habilidade_escolhida.tipos.includes('final_toda_rodada_complementar')) {
+                        jogadoresArray = game_functions.usarHabilidadeFinalTodaRodadaComplementar(jogador, jogadoresArray, cartaJogada);
+                    }
+                })
+            });
+
+            jogadoresArray.forEach((jogador) => {
                 jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
             });
 
@@ -329,6 +340,14 @@ export default function Game() {
                 if (!jogador.efeito_bloqueado) {
                     jogadoresArray = game_functions.usarHabilidadeFinalRodadaComplementar(jogador, jogadoresArray);
                 }
+            });
+
+            jogadoresArray.forEach((jogador) => {
+                jogador.cartas_jogadas.forEach((cartaJogada) => {
+                    if (cartaJogada.habilidade_escolhida.efeitos.tipos.includes('final_toda_rodada_complementar')) {
+                        jogadoresArray = game_functions.usarHabilidadeFinalTodaRodadaComplementar(jogador, jogadoresArray, cartaJogada);
+                    }
+                })
             });
 
             jogadoresArray.forEach((jogador) => {
