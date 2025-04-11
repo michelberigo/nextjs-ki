@@ -1,5 +1,9 @@
+import { CartaInterface } from "../interfaces/carta";
+import { ConsumivelInterface } from "../interfaces/consumivel";
+import { JogadorInterface } from "../interfaces/jogador";
+
 const game_functions = {
-    'embaralharCartas': function (cartas: []) {
+    'embaralharCartas': function (cartas: CartaInterface[]): CartaInterface[] {
         cartas = [...cartas];
 
         var j, x, i;
@@ -31,7 +35,7 @@ const game_functions = {
         return consumiveis;
     },
 
-    'comprarCartas': function (jogador: {}, cartas: [], qtdeCartas: number) {
+    'comprarCartas': function (jogador: JogadorInterface, cartas: [], qtdeCartas: number) {
         let cartasCompradas = cartas.splice(0, qtdeCartas);
 
         jogador.mao.cartas = cartasCompradas;
@@ -39,7 +43,7 @@ const game_functions = {
         return jogador;
     },
 
-    'comprarConsumiveis': function (jogador: {}, consumiveis: [], qtdeConsumiveis: number) {
+    'comprarConsumiveis': function (jogador: JogadorInterface, consumiveis: ConsumivelInterface[], qtdeConsumiveis: number) {
         let consumiveisCompradas = consumiveis.splice(0, qtdeConsumiveis);
 
         jogador.mao.consumiveis = consumiveisCompradas;
@@ -47,27 +51,32 @@ const game_functions = {
         return jogador;
     },
 
-    'validarHabilidadeEscolherJogador': function (jogador: {}) {
+    'validarHabilidadeEscolherJogador': function (jogador: JogadorInterface) {
         return jogador.habilidade_escolhida.efeitos.tipos.includes('escolher_jogador');
     },
 
-    'validarHabilidadeEscolherNumero': function (jogador: {}) {
+    'validarHabilidadeEscolherNumero': function (jogador: JogadorInterface) {
         return jogador.habilidade_escolhida.efeitos.tipos.includes('escolher_numero_habilidade');
     },
 
-    'escolherJogador': function (jogadorAtual: {}, jogadores: []) {
-        let jogadorEfeitoId = prompt(jogadorAtual.nome + ', escolha o ID do jogador:');
+    'escolherJogador': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
+        let jogadorEfeitoPrompt = prompt(jogadorAtual.nome + ', escolha o ID do jogador:');
+        let jogadorEfeito = null;
 
-        let jogadorEfeito = jogadores.find((jogador) => jogador.id == jogadorEfeitoId);
+        if (jogadorEfeitoPrompt) {
+            let jogadorEfeitoId = parseInt(jogadorEfeitoPrompt);
+
+            jogadorEfeito = jogadores.find((jogador) => jogador.id == jogadorEfeitoId);
+        }
 
         return jogadorEfeito;
     },
 
-    'escolherNumeroHabilidade': function (jogadorAtual: {}, jogadores: []) {
+    'escolherNumeroHabilidade': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         return prompt(jogadorAtual.nome + ', escolha o Número do Efeito:');
     },
 
-    'validarHabilidadeCondicao': function (jogadorAtual: {}) {
+    'validarHabilidadeCondicao': function (jogadorAtual: JogadorInterface) {
         let valido = true;
 
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('condicao')) {
@@ -77,7 +86,7 @@ const game_functions = {
         return valido;
     },
 
-    'validarHabilidadeCondicaoEscolhido': function (jogadorAtual: {}) {
+    'validarHabilidadeCondicaoEscolhido': function (jogadorAtual: JogadorInterface) {
         let valido = true;
 
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('condicao_escolhido')) {
@@ -87,13 +96,13 @@ const game_functions = {
         return valido;
     },
 
-    'usarHabilidadeRodadaPrincipal': function (jogadorAtual: {}, jogadores: []) {
+    'usarHabilidadeRodadaPrincipal': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
 
         return jogadores;
     },
 
-    'usarHabilidadeFinalRodadaPrincipal': function (jogadorAtual: {}, jogadores: []) {
+    'usarHabilidadeFinalRodadaPrincipal': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         let habilidade = jogadorAtual.habilidade_escolhida;
 
         if (habilidade.efeitos.tipos.includes('final_rodada_principal')) {
@@ -103,7 +112,7 @@ const game_functions = {
         return jogadores;
     },
 
-    'usarConsumivelRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
+    'usarConsumivelRodadaComplementar': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('alterar_efeito_consumivel')) {
             jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_alterar_consumivel(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         } else {
@@ -113,19 +122,24 @@ const game_functions = {
         return jogadores;
     },
 
-    'validarConsumivelEscolherJogador': function (jogador: {}) {
+    'validarConsumivelEscolherJogador': function (jogador: JogadorInterface) {
         return jogador.consumivel_escolhido.efeitos.tipos.includes('escolher_jogador');
     },
 
-    'escolherJogadorConsumivel': function (jogadorAtual: {}, jogadores: []) {
-        let jogadorEfeitoId = prompt(jogadorAtual.nome + ', escolha o ID do jogador:');
+    'escolherJogadorConsumivel': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
+        let jogadorEfeitoPrompt = prompt(jogadorAtual.nome + ', escolha o ID do jogador:');
+        let jogadorEfeito = null;
 
-        let jogadorEfeito = jogadores.find((jogador) => jogador.id == jogadorEfeitoId);
+        if (jogadorEfeitoPrompt) {
+            let jogadorEfeitoId = parseInt(jogadorEfeitoPrompt);
+
+            jogadorEfeito = jogadores.find((jogador) => jogador.id == jogadorEfeitoId);
+        }
 
         return jogadorEfeito;
     },
 
-    'validarConsumivelJogadorEscolhido': function (jogadorAtual: {}) {
+    'validarConsumivelJogadorEscolhido': function (jogadorAtual: JogadorInterface) {
         let valido = true;
 
         if (jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('condicao')) {
@@ -135,7 +149,7 @@ const game_functions = {
         return valido;
     },
 
-    'usarHabilidadeFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
+    'usarHabilidadeFinalRodadaComplementar': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('final_rodada_complementar')) {
             jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_final_rodada_complementar(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         }
@@ -143,31 +157,69 @@ const game_functions = {
         return jogadores;
     },
 
-    //
-    'usarHabilidadeFinalTodaRodadaComplementar': function (jogadorAtual: {}, jogadores: [], carta: {}) {
-        if (carta.habilidade_escolhida.efeitos.tipos.includes('final_toda_rodada_complementar')) {
+    'usarHabilidadeFinalTodaRodadaComplementar': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[], carta: CartaInterface) {
+        if (carta.habilidade_escolhida?.efeitos.tipos.includes('final_toda_rodada_complementar')) {
             jogadores = carta.habilidade_escolhida.efeitos.aplicar_efeito_final_toda_rodada_complementar(jogadorAtual, jogadorAtual.jogador_escolhido, jogadores);
         }
 
         return jogadores;
     },
     
-    'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: {}, jogadores: []) {
+    'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         if (jogadorAtual.consumivel_escolhido && jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('final_rodada_complementar')) {
             jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
         }
 
         return jogadores;
     },
-    //
 
-    'validarUsarHabilidade': function (jogadorAtual) {
+    'validarUsarHabilidade': function (jogadorAtual: JogadorInterface) {
         return !jogadorAtual.efeito_bloqueado;
     },
 
-    'valudarUsarHabilidadeNumero': function (jogadorAtual) {
+    'valudarUsarHabilidadeNumero': function (jogadorAtual: JogadorInterface) {
         return !jogadorAtual.efeito_numeros_bloquear.includes(jogadorAtual.habilidade_escolhida.numero.toString());
     },
+
+    //
+
+    'adicionarJogadores': function (qtdeJogadores: number) {
+        let jogadores = [];
+
+        for (let i = 0; i < qtdeJogadores; i++) {
+            jogadores.push({
+                'id': i + 1,
+                'nome': 'Jogador ' + (i + 1),
+                'mao': {
+                    'cartas': [],
+                    'consumiveis': []
+                },
+                'cartas_jogadas': [],
+                'cartas_descartadas': [],
+                'carta_escolhida': '',
+                'consumiveis_descartados': [],
+                'consumivel_escolhido': '',
+                'pontuacao_atual': 5,
+                'habilidade_escolhida': '',
+                'jogador_escolhido': '',
+                'jogador_consumivel_escolhido': '',
+                'habilidade_numero_escolhido': '',
+                'qtde_pontos_perdidos_rodada_principal': 0,
+                'qtde_pontos_ganhos_rodada_principal': 0,
+                'ganhou_pontos_rodada_principal': false,
+                'perdeu_pontos_rodada_principal': false,
+                'qtde_pontos_perdidos_rodada_complementar': 0,
+                'qtde_pontos_ganhos_rodada_complementar': 0,
+                'ganhou_pontos_rodada_complementar': false,
+                'perdeu_pontos_rodada_complementar': false,
+                'efeito_bloqueado': false,
+                'efeito_numeros_bloquear': [],
+                'pode_usar_consumivel': true
+            });
+        }
+
+        return jogadores;
+    }
 };
 
 export default game_functions;

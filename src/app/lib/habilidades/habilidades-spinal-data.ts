@@ -1,17 +1,19 @@
+import { JogadorInterface } from "@/app/interfaces/jogador";
+
 const habilidades = [
     {
         'id': 28,
-        'descricao': 'Ao final da Rodada Principal, todo decréscimo de pontos se torna acréscimo',
+        'descricao': 'Ao final da Rodada Principal, todo decréscimo de pontos que você sofrer se torna acréscimo',
         'numero': 1,
 
         'efeitos': {
             'tipos': ['jogador_atual', 'final_rodada_principal'],
 
-            aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 return jogadores;
             },
 
-            aplicar_efeito_final_rodada_complementar: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito_final_rodada_principal: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let pontosGanhos = jogador.qtde_pontos_perdidos_rodada_principal * 2;
 
                 jogador.pontuacao_atual += pontosGanhos;
@@ -35,7 +37,7 @@ const habilidades = [
             'tipos': ['jogador_atual'],
             'jogador_atual_pontuacao_ganhar': 1,
 
-            aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
                 jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_principal = true;
@@ -65,7 +67,7 @@ const habilidades = [
             'tipos': ['escolher_jogador'],
             'jogador_escolhido_pontuacao_perder': 3,
 
-            aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let pontosPerdidos = Math.min(jogadorEscolhido.mao.consumiveis.length * this.jogador_escolhido_pontuacao_perder, jogadorEscolhido.pontuacao_atual);
 
                 jogadorEscolhido.pontuacao_atual -= pontosPerdidos;

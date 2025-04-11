@@ -11,7 +11,7 @@ import habilidadesSpinal from './habilidades/habilidades-spinal-data';
 import habilidadesThunder from './habilidades/habilidades-thunder-data';
 
 const cartas = [
-    /*{
+    {
         'id': 1,
         'nome': 'Eyedol',
         'slug': 'eyedol',
@@ -37,7 +37,7 @@ const cartas = [
         'nome': 'Cinder',
         'slug': 'cinder',
         'habilidades': habilidadesCinder
-    },*/
+    },
 
     {
         'id': 5,
@@ -67,7 +67,7 @@ const cartas = [
         'habilidades': habilidadesOrchid
     },
 
-    /*{
+    {
         'id': 9,
         'nome': 'Sabrewulf',
         'slug': 'sabrewulf',
@@ -86,7 +86,7 @@ const cartas = [
         'nome': 'Thunder',
         'slug': 'thunder',
         'habilidades': habilidadesThunder
-    },*/
+    },
 ]
 
 export default cartas;

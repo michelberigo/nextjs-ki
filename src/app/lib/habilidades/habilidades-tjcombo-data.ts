@@ -1,3 +1,5 @@
+import { JogadorInterface } from "@/app/interfaces/jogador";
+
 const habilidades = [
     {
         'id': 7,
@@ -7,11 +9,11 @@ const habilidades = [
         'efeitos': {
             'tipos': ['escolher_jogador', 'final_rodada_principal'],
 
-            aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 return jogadores;
             },
 
-            aplicar_efeito_final_rodada_principal(jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito_final_rodada_principal(jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 if (jogadorEscolhido.qtde_pontos_ganhos_rodada_principal >= 5) {
                     let pontosPerdidos = jogadorEscolhido.pontuacao_atual;
 
@@ -38,11 +40,11 @@ const habilidades = [
             'jogador_atual_qtde_consumiveis_descartados': 2,
             'tipos': ['jogador_atual', 'condicao'],
 
-            aplicar_efeito_condicao: function (jogador, jogadorEscolhido) {
+            aplicar_efeito_condicao: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface) {
                 return jogador.mao.consumiveis.length >= this.jogador_atual_qtde_consumiveis_descartados;
             },
 
-            aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 for (let i = 0; i < this.jogador_atual_qtde_consumiveis_descartados; i++) {
                     jogador.mao.consumiveis.forEach((consumivel) => {
                         jogador.consumiveis_descartados.push(consumivel);
@@ -68,11 +70,11 @@ const habilidades = [
             'jogador_atual_pontuacao_ganhar': 4,
             'tipos': ['rodada_complementar', 'alterar_efeito_consumivel'],
 
-            aplicar_efeito: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 return jogadores;
             },
 
-            aplicar_efeito_alterar_consumivel: function (jogador, jogadorEscolhido, jogadores) {
+            aplicar_efeito_alterar_consumivel: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
                 jogador.qtde_pontos_ganhos_rodada_complementar += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_complementar = true;

@@ -6,13 +6,18 @@ import consumiveisData from '../lib/consumiveis-data';
 import { useEffect, useState } from "react";
 import Jogador from './Jogador';
 
+import { JogadorInterface } from '../interfaces/jogador';
+import { CartaInterface } from '../interfaces/carta';
+import { ConsumivelInterface } from '../interfaces/consumivel';
+import { HabilidadeInterface } from '../interfaces/habilidade';
+
 export default function Game() {
-    const [jogadores, setJogadores] = useState([]);
-    const [cartas, setCartas] = useState([]);
-    const [consumiveis, setConsumiveis] = useState([]);
+    const [jogadores, setJogadores] = useState([] as JogadorInterface[]);
+    const [cartas, setCartas] = useState([] as CartaInterface[]);
+    const [consumiveis, setConsumiveis] = useState([] as ConsumivelInterface[]);
     const [jogadorTurnoAtual, setJogadorTurnoAtual] = useState(0);
 
-    const [game, setGame] = useState({});
+    const [game, setGame] = useState({final_rodada: false});
 
     useEffect(() => {
         iniciarGame();
@@ -41,7 +46,7 @@ export default function Game() {
     }, [game])
 
     const iniciarGame = () => {
-        let jogadores = buscarJogadores(2);
+        let jogadores = game_functions.adicionarJogadores(2);
         let cartas = cartasData;
         let consumiveis = consumiveisData;
 
@@ -49,60 +54,14 @@ export default function Game() {
         consumiveis = game_functions.embaralharConsumiveis(consumiveis);
 
         jogadores.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartas, 2);
-            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 1);
+            jogador = game_functions.comprarCartas(jogador, cartas, 5);
+            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 2);
         });
         
         //setCartas(cartas);
         //setConsumiveis(consumiveis);
         setJogadores(jogadores);
         setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': false, 'final_rodada': false}));
-    }
-
-    const buscarJogadores = (qtdeJogadores: number) => {
-        let jogadores = [];
-
-        for (let i = 0; i < qtdeJogadores; i++) {
-            jogadores.push({
-                'id': i + 1,
-                'nome': 'Jogador ' + (i + 1),
-
-                'mao': {
-                    'cartas': [],
-                    'consumiveis': []
-                },
-
-                'cartas_jogadas': [],
-
-                'cartas_descartadas': [],
-                'carta_escolhida': '',
-
-                'consumiveis_descartados': [],
-                'consumivel_escolhido': '',
-
-                'pontuacao_atual': 5,
-                'habilidade_escolhida': '',
-                'jogador_escolhido': '',
-                'jogador_consumivel_escolhido': '',
-                'habilidade_numero_escolhido': '',
-
-                'qtde_pontos_perdidos_rodada_principal': 0,
-                'qtde_pontos_ganhos_rodada_principal': 0,
-                'ganhou_pontos_rodada_principal': false,
-                'perdeu_pontos_rodada_principal': false,
-
-                'qtde_pontos_perdidos_rodada_complementar': 0,
-                'qtde_pontos_ganhos_rodada_complementar': 0,
-                'ganhou_pontos_rodada_complementar': false,
-                'perdeu_pontos_rodada_complementar': false,
-
-                'efeito_bloqueado': false,
-                'efeito_numeros_bloquear': [],
-                'pode_usar_consumivel': true
-            });
-        }
-
-        return jogadores;
     }
 
     const listarJogadores = () => {
@@ -311,15 +270,15 @@ export default function Game() {
             });
 
             jogadoresArray.forEach((jogador) => {
-                jogador.cartas_jogadas.forEach((cartaJogada) => {
-                    if (cartaJogada.habilidade_escolhida.tipos.includes('final_toda_rodada_complementar')) {
-                        jogadoresArray = game_functions.usarHabilidadeFinalTodaRodadaComplementar(jogador, jogadoresArray, cartaJogada);
-                    }
-                })
+                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
             });
 
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+                jogador.cartas_jogadas.forEach((cartaJogada) => {
+                    if (cartaJogada.habilidade_escolhida?.efeitos.tipos.includes('final_toda_rodada_complementar')) {
+                        jogadoresArray = game_functions.usarHabilidadeFinalTodaRodadaComplementar(jogador, jogadoresArray, cartaJogada);
+                    }
+                })
             });
 
             setJogadores(jogadoresArray);
@@ -343,15 +302,15 @@ export default function Game() {
             });
 
             jogadoresArray.forEach((jogador) => {
-                jogador.cartas_jogadas.forEach((cartaJogada) => {
-                    if (cartaJogada.habilidade_escolhida.efeitos.tipos.includes('final_toda_rodada_complementar')) {
-                        jogadoresArray = game_functions.usarHabilidadeFinalTodaRodadaComplementar(jogador, jogadoresArray, cartaJogada);
-                    }
-                })
+                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
             });
 
             jogadoresArray.forEach((jogador) => {
-                jogadoresArray = game_functions.usarConsumivelFinalRodadaComplementar(jogador, jogadoresArray);
+                jogador.cartas_jogadas.forEach((cartaJogada) => {
+                    if (cartaJogada.habilidade_escolhida?.efeitos.tipos.includes('final_toda_rodada_complementar')) {
+                        jogadoresArray = game_functions.usarHabilidadeFinalTodaRodadaComplementar(jogador, jogadoresArray, cartaJogada);
+                    }
+                })
             });
 
             setJogadores(jogadoresArray);
@@ -362,7 +321,7 @@ export default function Game() {
     const finalizarRodada = () => {
         let jogadoresArray = [...jogadores];
 
-        jogadoresArray.forEach((jogador, index) => {
+        jogadoresArray.forEach((jogador) => {
             jogador.carta_escolhida = '';
             jogador.consumivel_escolhido = '';
             jogador.habilidade_escolhida = '';
