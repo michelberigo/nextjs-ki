@@ -2,14 +2,6 @@ import Carta from "./Carta";
 import Consumivel from "./Consumivel";
 
 export default function Jogador({ jogador, jogarCarta, jogarConsumivel, onEscolherHabilidadeChange, game, pularRodadaComplementar }) {
-    /*const listarCartas = () => {
-        let listaCartas = [...jogador.mao.cartas].map((carta) => {
-            return <Carta key={ carta.id } carta={ carta } jogador={ jogador } jogavel={ true } onEscolherHabilidadeChange={ onEscolherHabilidadeChange } />
-        });
-
-        return (<ul className="list-group list-group-horizontal">{ listaCartas }</ul>);
-    }*/
-
     const listarCartas = () => {
         let listaCartas = [...jogador.mao.cartas].map((carta) => {
             return (<div className="col" key={ carta.id }>
@@ -37,13 +29,13 @@ export default function Jogador({ jogador, jogarCarta, jogarConsumivel, onEscolh
             <h1>{ jogador.nome }</h1>
 
             <div className="row">
-                <div className="col-sm-8">
+                <div className="col-sm-9">
                     <h5>Cartas</h5>
 
                     { listarCartas() }
                 </div>
 
-                <div className="col-sm-4">
+                <div className="col-sm-3">
                     <h5>Consumíveis</h5>
 
                     { game.rodada_complementar && (

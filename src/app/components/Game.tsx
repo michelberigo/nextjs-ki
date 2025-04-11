@@ -9,7 +9,6 @@ import Jogador from './Jogador';
 import { JogadorInterface } from '../interfaces/jogador';
 import { CartaInterface } from '../interfaces/carta';
 import { ConsumivelInterface } from '../interfaces/consumivel';
-import { HabilidadeInterface } from '../interfaces/habilidade';
 
 export default function Game() {
     const [jogadores, setJogadores] = useState([] as JogadorInterface[]);
@@ -46,7 +45,7 @@ export default function Game() {
     }, [game])
 
     const iniciarGame = () => {
-        let jogadores = game_functions.adicionarJogadores(2);
+        let jogadores = game_functions.adicionarJogadores(3);
         let cartas = cartasData;
         let consumiveis = consumiveisData;
 
@@ -54,7 +53,7 @@ export default function Game() {
         consumiveis = game_functions.embaralharConsumiveis(consumiveis);
 
         jogadores.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartas, 5);
+            jogador = game_functions.comprarCartas(jogador, cartas, 3);
             jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 2);
         });
         

@@ -71,9 +71,14 @@ const habilidades = [
 
                 jogadores.forEach((jogadorArray, index) => {
                     if (indexJogador != index) {
-                        jogadorArray.pontuacao_atual -= this.jogador_escolhido_pontuacao_final_toda_rodada_complementar_perder;
-                        jogadorArray.qtde_pontos_perdidos_rodada_complementar += this.jogador_escolhido_pontuacao_final_toda_rodada_complementar_perder;
-                        jogadorArray.perdeu_pontos_rodada_complementar = true;
+                        let pontosPerdidos = Math.min(this.jogador_escolhido_pontuacao_final_toda_rodada_complementar_perder, jogadorEscolhido.pontuacao_atual);
+
+                        jogadorArray.pontuacao_atual -= pontosPerdidos;
+                        jogadorArray.qtde_pontos_perdidos_rodada_complementar += pontosPerdidos;
+
+                        if (pontosPerdidos) {
+                            jogadorArray.perdeu_pontos_rodada_complementar = true;
+                        }
                     }
                 });
 
