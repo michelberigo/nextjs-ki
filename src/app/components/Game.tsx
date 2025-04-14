@@ -57,8 +57,6 @@ export default function Game() {
             jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 2);
         });
         
-        //setCartas(cartas);
-        //setConsumiveis(consumiveis);
         setJogadores(jogadores);
         setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': false, 'final_rodada': false}));
     }
@@ -199,8 +197,6 @@ export default function Game() {
         jogadorAtual.cartas_jogadas.push({'carta_escolhida': jogadorAtual.carta_escolhida, 'habilidade_escolhida': jogadorAtual.habilidade_escolhida});
         jogadorAtual.mao.cartas = jogadorAtual.mao.cartas.filter((carta) => carta.id != jogadorAtual.carta_escolhida.id);
 
-        console.log(jogadoresArray);
-
         if (jogadorTurnoAtual + 1 < jogadores.length) {
             setJogadores(jogadoresArray);
             setJogadorTurnoAtual(jogadorTurnoAtual + 1);
@@ -321,25 +317,7 @@ export default function Game() {
         let jogadoresArray = [...jogadores];
 
         jogadoresArray.forEach((jogador) => {
-            jogador.carta_escolhida = '';
-            jogador.consumivel_escolhido = '';
-            jogador.habilidade_escolhida = '';
-            jogador.jogador_escolhido = '';
-            jogador.jogador_consumivel_escolhido = '';
-
-            jogador.qtde_pontos_perdidos_rodada_principal = 0;
-            jogador.qtde_pontos_ganhos_rodada_principal = 0;
-            jogador.ganhou_pontos_rodada_principal = false;
-            jogador.perdeu_pontos_rodada_principal = false;
-
-            jogador.qtde_pontos_perdidos_rodada_complementar = 0;
-            jogador.qtde_pontos_ganhos_rodada_complementar = 0;
-            jogador.ganhou_pontos_rodada_complementar = false;
-            jogador.perdeu_pontos_rodada_complementar = false;
-
-            jogador.efeito_bloqueado = false;
-            jogador.efeito_numeros_bloquear = [];
-            jogador.pode_usar_consumivel = true;
+            jogador = game_functions.limparJogadorFinalRodada(jogador);
         });
 
         setJogadores(jogadoresArray);

@@ -68,10 +68,11 @@ const habilidades = [
 
             aplicar_efeito_final_toda_rodada_complementar: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let indexJogador = jogadores.findIndex(jogadorArray => jogadorArray.id == jogador.id);
+                let pontosPerdidos = null;
 
                 jogadores.forEach((jogadorArray, index) => {
                     if (indexJogador != index) {
-                        let pontosPerdidos = Math.min(this.jogador_escolhido_pontuacao_final_toda_rodada_complementar_perder, jogadorEscolhido.pontuacao_atual);
+                        pontosPerdidos = Math.min(this.jogador_escolhido_pontuacao_final_toda_rodada_complementar_perder, jogadorArray.pontuacao_atual);
 
                         jogadorArray.pontuacao_atual -= pontosPerdidos;
                         jogadorArray.qtde_pontos_perdidos_rodada_complementar += pontosPerdidos;

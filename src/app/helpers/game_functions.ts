@@ -219,6 +219,30 @@ const game_functions = {
         }
 
         return jogadores;
+    },
+
+    'limparJogadorFinalRodada': function (jogador: JogadorInterface) {
+        jogador.carta_escolhida = '';
+        jogador.consumivel_escolhido = '';
+        jogador.habilidade_escolhida = '';
+        jogador.jogador_escolhido = '';
+        jogador.jogador_consumivel_escolhido = '';
+
+        jogador.qtde_pontos_perdidos_rodada_principal = 0;
+        jogador.qtde_pontos_ganhos_rodada_principal = 0;
+        jogador.ganhou_pontos_rodada_principal = false;
+        jogador.perdeu_pontos_rodada_principal = false;
+
+        jogador.qtde_pontos_perdidos_rodada_complementar = 0;
+        jogador.qtde_pontos_ganhos_rodada_complementar = 0;
+        jogador.ganhou_pontos_rodada_complementar = false;
+        jogador.perdeu_pontos_rodada_complementar = false;
+
+        jogador.efeito_bloqueado = false;
+        jogador.efeito_numeros_bloquear = [];
+        jogador.pode_usar_consumivel = true;
+        
+        return jogador;
     }
 };
 

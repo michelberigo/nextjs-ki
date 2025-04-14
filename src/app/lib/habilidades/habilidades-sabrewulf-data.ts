@@ -39,13 +39,13 @@ const habilidades = [
                 jogadorEscolhido.pontuacao_atual -= pontosPerdidosJogadorEscolhido;
                 jogadorEscolhido.qtde_pontos_perdidos_rodada_principal += pontosPerdidosJogadorEscolhido;
 
-                if (pontosPerdidosJogadorEscolhido) {
-                    jogadorEscolhido.perdeu_pontos_rodada_principal = true;
-                }
-
                 jogador.pontuacao_atual += pontosPerdidosJogadorEscolhido;
                 jogador.qtde_pontos_ganhos_rodada_principal += pontosPerdidosJogadorEscolhido;
-                jogador.ganhou_pontos_rodada_principal = true;
+
+                if (pontosPerdidosJogadorEscolhido) {
+                    jogadorEscolhido.perdeu_pontos_rodada_principal = true;
+                    jogador.ganhou_pontos_rodada_principal = true;
+                }
 
                 return jogadores;
             },
