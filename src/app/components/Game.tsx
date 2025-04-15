@@ -45,19 +45,19 @@ export default function Game() {
     }, [game])
 
     const iniciarGame = () => {
-        let jogadores = game_functions.adicionarJogadores(3);
-        let cartas = cartasData;
-        let consumiveis = consumiveisData;
+        let jogadoresNovos: JogadorInterface[] = game_functions.adicionarJogadores(3);
 
-        cartas = game_functions.embaralharCartas(cartas);
-        consumiveis = game_functions.embaralharConsumiveis(consumiveis);
+        let cartasPilha = game_functions.embaralharCartas(cartasData);
+        let consumiveisPilha = game_functions.embaralharConsumiveis(consumiveisData);
 
-        jogadores.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartas, 3);
-            jogador = game_functions.comprarConsumiveis(jogador, consumiveis, 2);
+        jogadoresNovos.forEach((jogador) => {
+            jogador = game_functions.comprarCartas(jogador, cartasPilha, 3);
+            jogador = game_functions.comprarConsumiveis(jogador, consumiveisPilha, 2);
         });
-        
-        setJogadores(jogadores);
+
+        setCartas(cartasPilha);
+        setConsumiveis(consumiveisPilha);
+        setJogadores(jogadoresNovos);
         setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': false, 'final_rodada': false}));
     }
 
@@ -116,13 +116,20 @@ export default function Game() {
         let jogador = [...jogadores].find(jogador => jogador.id == jogadorId);
         let jogadorIndex = [...jogadores].findIndex((jogador) => jogador.id == jogadorId);
 
-        let carta = [...jogador.mao.cartas].find((carta) => carta.id == cartaId);
-        let habilidade = [...carta.habilidades].find((habilidade) => habilidade.id == habilidadeId);
+        if (jogador) {
+            let carta = [...jogador.mao.cartas].find((carta) => carta.id == cartaId);
 
-        jogadores[jogadorIndex].carta_escolhida = carta;
-        jogadores[jogadorIndex].habilidade_escolhida = habilidade;
+            if (carta) {
+                let habilidade = [...carta.habilidades].find((habilidade) => habilidade.id == habilidadeId);
 
-        setJogadores(jogadores);
+                if (habilidade) {
+                    jogadores[jogadorIndex].carta_escolhida = carta;
+                    jogadores[jogadorIndex].habilidade_escolhida = habilidade;
+
+                    setJogadores(jogadores);
+                }
+            }
+        }
     }
 
     const jogarCarta = () => {
@@ -331,7 +338,7 @@ export default function Game() {
                 { listarJogadores() }
             </div>
 
-            { jogadores.length >0 &&
+            { jogadores.length > 0 &&
                 <Jogador jogador={ jogadores[jogadorTurnoAtual] } jogarCarta={ jogarCarta } jogarConsumivel={ jogarConsumivel }
                     onEscolherHabilidadeChange={ onEscolherHabilidadeChange }
                     game={ game } pularRodadaComplementar={ pularRodadaComplementar }

@@ -13,7 +13,7 @@ export interface JogadorInterface {
     'pontuacao_atual': number;
     'habilidade_escolhida': HabilidadeInterface;
     'jogador_escolhido': JogadorInterface;
-    'jogador_consumivel_escolhido': ConsumivelInterface;
+    'jogador_consumivel_escolhido': JogadorInterface;
     'habilidade_numero_escolhido': string;
     'qtde_pontos_perdidos_rodada_principal': number;
     'qtde_pontos_ganhos_rodada_principal': number;

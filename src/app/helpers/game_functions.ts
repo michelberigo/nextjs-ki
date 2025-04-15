@@ -19,7 +19,7 @@ const game_functions = {
         return cartas;
     },
 
-    'embaralharConsumiveis': function (consumiveis: []) {
+    'embaralharConsumiveis': function (consumiveis: ConsumivelInterface[]) {
         consumiveis = [...consumiveis];
 
         var j, x, i;
@@ -35,7 +35,7 @@ const game_functions = {
         return consumiveis;
     },
 
-    'comprarCartas': function (jogador: JogadorInterface, cartas: [], qtdeCartas: number) {
+    'comprarCartas': function (jogador: JogadorInterface, cartas: CartaInterface[], qtdeCartas: number) {
         let cartasCompradas = cartas.splice(0, qtdeCartas);
 
         jogador.mao.cartas = cartasCompradas;
@@ -59,7 +59,7 @@ const game_functions = {
         return jogador.habilidade_escolhida.efeitos.tipos.includes('escolher_numero_habilidade');
     },
 
-    'escolherJogador': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
+    'escolherJogador': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]): JogadorInterface | null {
         let jogadorEfeitoPrompt = prompt(jogadorAtual.nome + ', escolha o ID do jogador:');
         let jogadorEfeito = null;
 
@@ -114,9 +114,9 @@ const game_functions = {
 
     'usarConsumivelRodadaComplementar': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         if (jogadorAtual.habilidade_escolhida.efeitos.tipos.includes('alterar_efeito_consumivel')) {
-            jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_alterar_consumivel(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+            jogadores = jogadorAtual.habilidade_escolhida.efeitos.aplicar_efeito_alterar_consumivel(jogadorAtual, jogadorAtual.jogador_consumivel_escolhido , jogadores);
         } else {
-            jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+            jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_consumivel_escolhido , jogadores);
         }
 
         return jogadores;
@@ -167,7 +167,7 @@ const game_functions = {
     
     'usarConsumivelFinalRodadaComplementar': function (jogadorAtual: JogadorInterface, jogadores: JogadorInterface[]) {
         if (jogadorAtual.consumivel_escolhido && jogadorAtual.consumivel_escolhido.efeitos.tipos.includes('final_rodada_complementar')) {
-            jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_escolhido , jogadores);
+            jogadores = jogadorAtual.consumivel_escolhido.efeitos.aplicar_efeito(jogadorAtual, jogadorAtual.jogador_consumivel_escolhido , jogadores);
         }
 
         return jogadores;
@@ -183,7 +183,7 @@ const game_functions = {
 
     //
 
-    'adicionarJogadores': function (qtdeJogadores: number) {
+    'adicionarJogadores': function (qtdeJogadores: number): JogadorInterface[] {
         let jogadores = [];
 
         for (let i = 0; i < qtdeJogadores; i++) {

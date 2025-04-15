@@ -9,8 +9,9 @@ import habilidadesOrchid from './habilidades/habilidades-orchid-data';
 import habilidadesSabrewulf from './habilidades/habilidades-sabrewulf-data';
 import habilidadesSpinal from './habilidades/habilidades-spinal-data';
 import habilidadesThunder from './habilidades/habilidades-thunder-data';
+import { CartaInterface } from '../interfaces/carta';
 
-const cartas = [
+const cartas: CartaInterface[] = [
     {
         'id': 1,
         'nome': 'Eyedol',

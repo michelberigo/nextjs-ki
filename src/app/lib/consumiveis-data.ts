@@ -1,8 +1,7 @@
-//Realizando apenas efeitos principais
-
+import { ConsumivelInterface } from "../interfaces/consumivel";
 import { JogadorInterface } from "../interfaces/jogador";
 
-const consumiveis = [
+const consumiveis: ConsumivelInterface[] = [
     {
         'id': 1,
         'descricao': 'Ganhe 5 pontos se você não possuir pontos',
@@ -174,6 +173,9 @@ const consumiveis = [
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let pontosPerdidos = Math.min(this.jogador_escolhido_pontuacao_perder, jogadorEscolhido.pontuacao_atual);
 
+                console.log(jogadorEscolhido);
+                console.log(pontosPerdidos);
+
                 jogadorEscolhido.pontuacao_atual -= pontosPerdidos;
                 jogadorEscolhido.qtde_pontos_perdidos_rodada_complementar += pontosPerdidos;
 
@@ -196,6 +198,8 @@ const consumiveis = [
             'tipos': ['jogador_atual', 'escolher_jogador'],
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
+                console.log(jogadorEscolhido);
+
                 let pontosPerdidos = Math.min(this.jogador_escolhido_pontuacao_perder * jogadorEscolhido.mao.consumiveis.length, jogadorEscolhido.pontuacao_atual);
 
                 jogadorEscolhido.pontuacao_atual -= pontosPerdidos;

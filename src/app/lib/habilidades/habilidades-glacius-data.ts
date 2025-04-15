@@ -86,7 +86,9 @@ const habilidades = [
             },
 
             aplicar_efeito_final_rodada_principal: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
-                if (jogadores.some((jogadorArray) => jogador.habilidade_escolhida.numero == jogadorArray.habilidade_escolhida.numero)) {
+                let indexJogador = jogadores.findIndex(jogadorArray => jogadorArray.id == jogador.id);
+
+                if (jogadores.some((jogadorArray, index) => index != indexJogador && jogador.habilidade_escolhida.numero == jogadorArray.habilidade_escolhida.numero)) {
                     let pontosPerdidos = Math.min(this.jogador_atual_pontuacao_final_rodada_principal_perder, jogador.pontuacao_atual);
 
                     jogador.pontuacao_atual -= pontosPerdidos;
