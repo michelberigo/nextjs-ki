@@ -18,6 +18,8 @@ export default function Game() {
 
     const [game, setGame] = useState({final_rodada: false});
 
+    const [logs, setLogs] = useState([]);
+
     useEffect(() => {
         iniciarGame();
     }, []);
@@ -322,6 +324,8 @@ export default function Game() {
 
     const finalizarRodada = () => {
         let jogadoresArray = [...jogadores];
+
+        console.log(jogadoresArray);
 
         jogadoresArray.forEach((jogador) => {
             jogador = game_functions.limparJogadorFinalRodada(jogador);
