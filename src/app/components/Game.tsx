@@ -61,6 +61,7 @@ export default function Game() {
         setConsumiveis(consumiveisPilha);
         setJogadores(jogadoresNovos);
         setGame((prev) => ({...prev, 'rodada_principal': true, 'rodada_complementar': false, 'final_rodada': false}));
+        setJogadorTurnoAtual(0);
     }
 
     const listarJogadores = () => {
