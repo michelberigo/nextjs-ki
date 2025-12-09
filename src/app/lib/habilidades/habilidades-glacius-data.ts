@@ -39,13 +39,13 @@ const habilidades = [
 
     {
         'id': 17,
-        'descricao': 'Ganhe 2 pontos. Ao final da Rodada Complementar, se você não usar Consumível, ganhe 3 pontos',
+        'descricao': 'Ganhe 2 pontos. Ao final da Rodada Complementar, se você não usar Consumível, ganhe 5 pontos',
         'numero': 2,
 
         'efeitos': {
             'tipos': ['jogador_atual', 'final_rodada_complementar'],
             'jogador_atual_pontuacao_ganhar': 2,
-            'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 3,
+            'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 5,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
@@ -69,13 +69,13 @@ const habilidades = [
 
     {
         'id': 18,
-        'descricao': 'Ganhe 5 pontos. Ao final da Rodada Principal, se algum jogador usou a mesma numeração de efeito, perca 2 pontos',
+        'descricao': 'Ganhe 4 pontos e escolha uma numeração de efeito. Ao final da Rodada Principal, cada outro jogador que usou uma habilidade com a numeração de efeito escolhida perde 3 pontos',
         'numero': 3,
 
         'efeitos': {
-            'tipos': ['jogador_atual', 'final_rodada_principal'],
-            'jogador_atual_pontuacao_ganhar': 5,
-            'jogador_atual_pontuacao_final_rodada_principal_perder': 2,
+            'tipos': ['jogador_atual', 'final_rodada_principal', 'escolher_numero_habilidade'],
+            'jogador_atual_pontuacao_ganhar': 4,
+            'jogador_atual_pontuacao_final_rodada_principal_perder': 3,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
@@ -87,17 +87,20 @@ const habilidades = [
 
             aplicar_efeito_final_rodada_principal: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let indexJogador = jogadores.findIndex(jogadorArray => jogadorArray.id == jogador.id);
+                let pontosPerdidos = null;
 
-                if (jogadores.some((jogadorArray, index) => index != indexJogador && jogador.habilidade_escolhida.numero == jogadorArray.habilidade_escolhida.numero)) {
-                    let pontosPerdidos = Math.min(this.jogador_atual_pontuacao_final_rodada_principal_perder, jogador.pontuacao_atual);
+                jogadores.forEach((jogadorArray, index) => {
+                    if (indexJogador != index && jogadorArray.habilidade_escolhida.numero == jogador.habilidade_numero_escolhido) {
+                        pontosPerdidos = Math.min(this.jogador_atual_pontuacao_final_rodada_principal_perder, jogadorArray.pontuacao_atual);
 
-                    jogador.pontuacao_atual -= pontosPerdidos;
-                    jogador.qtde_pontos_perdidos_rodada_principal += pontosPerdidos;
-    
-                    if (pontosPerdidos) {
-                        jogador.perdeu_pontos_rodada_principal = true;
+                        jogadorArray.pontuacao_atual -= pontosPerdidos;
+                        jogadorArray.qtde_pontos_perdidos_rodada_principal += pontosPerdidos;
+
+                        if (pontosPerdidos) {
+                            jogadorArray.perdeu_pontos_rodada_principal = true;
+                        }
                     }
-                }
+                });
 
                 return jogadores;
             },

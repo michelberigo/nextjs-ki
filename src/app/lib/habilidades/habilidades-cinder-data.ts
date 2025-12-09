@@ -3,12 +3,12 @@ import { JogadorInterface } from "@/app/interfaces/jogador";
 const habilidades = [
     {
         'id': 10,
-        'descricao': 'Escolha um jogador; Ele perde 4 pontos',
+        'descricao': 'Escolha um jogador; Ele perde 5 pontos',
         'numero': 1,
 
         'efeitos': {
             'tipos': ['escolher_jogador'],
-            'jogador_escolhido_pontuacao_perder': 4,
+            'jogador_escolhido_pontuacao_perder': 5,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let pontosPerdidos = Math.min(this.jogador_escolhido_pontuacao_perder, jogadorEscolhido.pontuacao_atual);
@@ -27,12 +27,12 @@ const habilidades = [
 
     {
         'id': 11,
-        'descricao': 'Ganhe 3 pontos. Ao final da Rodada Complementar, se você não perdeu algum ponto, ganhe 3 pontos',
+        'descricao': 'Ganhe 3 pontos. Ao final da Rodada Complementar, se você não perdeu algum ponto, ganhe 4 pontos',
         'numero': 2,
 
         'efeitos': {
             'jogador_atual_pontuacao_ganhar': 3,
-            'jogador_atual_pontuacao_final_rodada_complementar': 3,
+            'jogador_atual_pontuacao_final_rodada_complementar': 4,
             'tipos': ['jogador_atual', 'final_rodada_complementar'],
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
@@ -57,12 +57,12 @@ const habilidades = [
 
     {
         'id': 12,
-        'descricao': 'Ganhe 4 pontos. Ao final da Rodada Complementar, se todos os jogadores usaram Consumível ou todos os jogadores não usaram Consumível, ganhe 3 pontos',
+        'descricao': 'Ganhe 4 pontos. Ao final da Rodada Complementar, se todos os jogadores usaram Consumível ou todos os jogadores não usaram Consumível, ganhe 5 pontos',
         'numero': 3,
 
         'efeitos': {
             'jogador_atual_pontuacao': 4,
-            'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 3,
+            'jogador_atual_pontuacao_final_rodada_complementar_ganhar': 5,
             'tipos': ['jogador_atual', 'final_rodada_complementar'],
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {

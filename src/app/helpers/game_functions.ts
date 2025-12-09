@@ -199,7 +199,7 @@ const game_functions = {
                 'carta_escolhida': '',
                 'consumiveis_descartados': [],
                 'consumivel_escolhido': '',
-                'pontuacao_atual': 5,
+                'pontuacao_atual': 7,
                 'habilidade_escolhida': '',
                 'jogador_escolhido': '',
                 'jogador_consumivel_escolhido': '',

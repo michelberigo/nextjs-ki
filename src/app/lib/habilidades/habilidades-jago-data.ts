@@ -3,12 +3,12 @@ import { JogadorInterface } from "@/app/interfaces/jogador";
 const habilidades = [
     {
         'id': 19,
-        'descricao': 'Ganhe 2 pontos e escolha uma numeração de efeito; Durante a Rodada Principal, nenhum jogador poderá usar o efeito da numeração escolhida',
+        'descricao': 'Ganhe 5 pontos e escolha uma numeração de efeito; Durante a Rodada Principal, nenhum jogador poderá usar o efeito da numeração escolhida',
         'numero': 1,
 
         'efeitos': {
             'tipos': ['jogador_atual', 'escolher_numero_habilidade'],
-            'jogador_atual_pontuacao_ganhar': 2,
+            'jogador_atual_pontuacao_ganhar': 5,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
@@ -30,12 +30,12 @@ const habilidades = [
 
     {
         'id': 20,
-        'descricao': 'Ganhe 5 pontos. Você não poderá usar Consumível durante a Rodada Complementar',
+        'descricao': 'Ganhe 6 pontos. Você não poderá usar Consumível durante a Rodada Complementar',
         'numero': 2,
 
         'efeitos': {
             'tipos': ['jogador_atual'],
-            'jogador_atual_pontuacao_ganhar': 5,
+            'jogador_atual_pontuacao_ganhar': 6,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;

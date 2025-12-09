@@ -75,12 +75,12 @@ const habilidades = [
 
     {
         'id': 3,
-        'descricao': 'Ganhe 10 pontos. Ao final da Rodada Principal, se outro jogador fez você perder algum ponto: Perca 6 pontos',
+        'descricao': 'Ganhe 10 pontos. Ao final da Rodada Principal, se outro jogador fez você perder algum ponto: Perca 7 pontos',
         'numero': 3,
 
         'efeitos': {
             'jogador_atual_pontuacao_ganhar': 10,
-            'jogador_atual_pontuacao_final_rodada_principal_perder': 6,
+            'jogador_atual_pontuacao_final_rodada_principal_perder': 7,
             'tipos': ['jogador_atual', 'final_rodada_principal'],
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {

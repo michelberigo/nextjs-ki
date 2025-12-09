@@ -53,7 +53,7 @@ export default function Game() {
         let consumiveisPilha = game_functions.embaralharConsumiveis(consumiveisData);
 
         jogadoresNovos.forEach((jogador) => {
-            jogador = game_functions.comprarCartas(jogador, cartasPilha, 3);
+            jogador = game_functions.comprarCartas(jogador, cartasPilha, 1);
             jogador = game_functions.comprarConsumiveis(jogador, consumiveisPilha, 2);
         });
 

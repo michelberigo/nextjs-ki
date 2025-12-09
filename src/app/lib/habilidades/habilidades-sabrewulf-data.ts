@@ -26,12 +26,12 @@ const habilidades = [
 
     {
         'id': 26,
-        'descricao': 'Escolha um jogador; Pegue 3 pontos dele (ou pegue todos os pontos se ele possuir menos de 3 pontos)',
+        'descricao': 'Escolha um jogador; Pegue 4 pontos dele (ou pegue todos os pontos se ele possuir menos de 4 pontos)',
         'numero': 2,
 
         'efeitos': {
             'tipos': ['escolher_jogador', 'jogador_atual'],
-            'jogador_escolhido_pontuacao_perder': 3,
+            'jogador_escolhido_pontuacao_perder': 4,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
                 let pontosPerdidosJogadorEscolhido = Math.min(this.jogador_escolhido_pontuacao_perder, jogadorEscolhido.pontuacao_atual);

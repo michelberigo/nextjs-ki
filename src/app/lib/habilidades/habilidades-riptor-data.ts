@@ -3,12 +3,12 @@ import { JogadorInterface } from "@/app/interfaces/jogador";
 const habilidades = [
     {
         'id': 4,
-        'descricao': 'Escolha um jogador; Ele perde 3 pontos. Ao final da Rodada Principal, se ele não ganhou pontos, ele perde mais 2 pontos',
+        'descricao': 'Escolha um jogador; Ele perde 3 pontos. Ao final da Rodada Principal, se ele não ganhou pontos, ele perde mais 4 pontos',
         'numero': 1,
 
         'efeitos': {
             'jogador_escolhido_pontuacao_perder': 3,
-            'jogador_escolhido_pontuacao_final_rodada_principal_perder': 2,
+            'jogador_escolhido_pontuacao_final_rodada_principal_perder': 4,
             'tipos': ['escolher_jogador', 'final_rodada_principal'],
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
@@ -75,11 +75,11 @@ const habilidades = [
 
     {
         'id': 6,
-        'descricao': 'Ganhe 3 pontos. Ao final da Rodada Principal, se você não possuir Consumível, ganhe 3 pontos',
+        'descricao': 'Ganhe 5 pontos. Ao final da Rodada Principal, se você não possuir Consumível, ganhe 3 pontos',
         'numero': 3,
 
         'efeitos': {
-            'jogador_atual_pontuacao_ganhar': 3,
+            'jogador_atual_pontuacao_ganhar': 5,
             'jogador_atual_pontuacao_final_rodada_principal_ganhar': 3,
             'tipos': ['jogador_atual', 'final_rodada_principal'],
 
