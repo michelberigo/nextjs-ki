@@ -14,7 +14,7 @@ const habilidades = [
             },
 
             aplicar_efeito_final_rodada_complementar: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
-                let pontosPerdidos = Math.min(((jogadorEscolhido.qtde_pontos_ganhos_rodada_principal + jogadorEscolhido.qtde_pontos_ganhos_rodada_complementar) * 2), jogadorEscolhido.pontuacao_atual);
+                let pontosPerdidos = Math.min(jogadorEscolhido.qtde_pontos_ganhos_rodada_principal + jogadorEscolhido.qtde_pontos_ganhos_rodada_complementar, jogadorEscolhido.pontuacao_atual);
 
                 jogadorEscolhido.pontuacao_atual -= pontosPerdidos;
                 jogadorEscolhido.qtde_pontos_perdidos_rodada_complementar += pontosPerdidos;

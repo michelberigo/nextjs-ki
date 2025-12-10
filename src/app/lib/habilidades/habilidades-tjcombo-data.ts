@@ -32,11 +32,11 @@ const habilidades = [
 
     {
         'id': 8,
-        'descricao': 'Descarte 2 Consumíveis; Ganhe 7 pontos',
+        'descricao': 'Descarte 2 Consumíveis; Ganhe 8 pontos',
         'numero': 2,
 
         'efeitos': {
-            'jogador_atual_pontuacao_ganhar': 7,
+            'jogador_atual_pontuacao_ganhar': 8,
             'jogador_atual_qtde_consumiveis_descartados': 2,
             'tipos': ['jogador_atual', 'condicao'],
 

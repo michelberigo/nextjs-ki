@@ -14,9 +14,9 @@ const habilidades = [
             },
 
             aplicar_efeito_final_rodada_principal: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
-                let pontosGanhos = jogador.qtde_pontos_perdidos_rodada_principal * 2;
+                let pontosGanhos = jogador.qtde_pontos_perdidos_rodada_principal;
 
-                jogador.pontuacao_atual += pontosGanhos;
+                jogador.pontuacao_atual += pontosGanhos * 2;
                 jogador.qtde_pontos_ganhos_rodada_principal += pontosGanhos;
 
                 if (pontosGanhos) {
@@ -38,6 +38,10 @@ const habilidades = [
             'jogador_atual_pontuacao_ganhar': 1,
 
             aplicar_efeito: function (jogador: JogadorInterface, jogadorEscolhido: JogadorInterface, jogadores: JogadorInterface[]) {
+
+                
+
+
                 jogador.pontuacao_atual += this.jogador_atual_pontuacao_ganhar;
                 jogador.qtde_pontos_ganhos_rodada_principal += this.jogador_atual_pontuacao_ganhar;
                 jogador.ganhou_pontos_rodada_principal = true;
